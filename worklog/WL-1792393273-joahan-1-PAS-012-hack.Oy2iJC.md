@@ -15,3 +15,4 @@
 - 1792403092 | CLAIMED | joahan-1 | heartbeat; lease until 1792405792
 - 1792403368 | REVIEW | joahan-1 | done; PR https://github.com/JoahanMorales/juego-economia/compare/main...feat/pas-012?expand=1; evidence: node test/load-test.js --local --players 30 --games 1 --think-max 2500 → 25 jugadas, latencia prom 17.8 ms, p95 24 ms, máx 67 ms, 0 desconexiones, sin error:msg, movido 3996.86 vs teórico 4000; exit 0. Con 5 jugadores y 2 partidas el flujo host:lobby→host:start funciona.; reviewer: -
 - 1792403375 | REVIEW | joahan-1 | checkpoint; next: esperar veredicto de joahan-2
+- 1792403898 | REVIEW | joahan-2 | review; approve; SHA 5320ca4806b00e3f4e7d93897d4fd5f6f410694e; reviewer joahan-2
