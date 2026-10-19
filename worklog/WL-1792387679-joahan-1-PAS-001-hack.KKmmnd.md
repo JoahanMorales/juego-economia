@@ -6,7 +6,7 @@
 - Why: no version pinned in task
 - Failing: -
 - Commands: npm ci && node --test test/health.test.js
-- Next: Humano: Shared resource/CI needs a human: .uak/bin/.smoke-project.provenance
+- Next: Integrated in main: d12c7bb8ddf26fc35462c6f5443920334e8fb9db (recorded by joahan-2)
 
 ## History
 - 1792387679 | CLAIMED | joahan-1 | claim; next: npm init -y, then one npm install with every dependency of the task
@@ -18,3 +18,4 @@
 - 1792388198 | REVIEW | joahan-1 | heartbeat; lease until 1792402598
 - 1792388204 | REVIEW | joahan-1 | merge rechazado; Shared resource/CI needs a human: .uak/bin/.smoke-project.provenance
 - 1792390232 | REVIEW | joahan-1 | heartbeat; lease until 1792404632
+- 1792390479 | INTEGRATED | joahan-2 | integrate; recorded by joahan-2; PR https://github.com/JoahanMorales/juego-economia/compare/main...feat/pas-001?expand=1; merged d12c7bb8ddf26fc35462c6f5443920334e8fb9db; proof ancestry
