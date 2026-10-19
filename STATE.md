@@ -1,18 +1,18 @@
 # STATE
 
 Phase: execution
-Updated: 1792391889
+Updated: 1792391919
 AVAILABLE: PAS-008 PAS-009 PAS-010 PAS-011 PAS-012 PAS-013 PAS-014 PAS-015 PAS-016 PAS-017 
-CLAIMED: PAS-006 
+CLAIMED: -
 BLOCKED: -
-REVIEW: PAS-002 PAS-003 PAS-007 
+REVIEW: PAS-002 PAS-003 PAS-006 PAS-007 
 INTEGRATED: PAS-001 PAS-004 PAS-005 
 CANCELLED: -
 
 Claims (first 24; status --task ID shows detail):
 PAS-002 | REVIEW | joahan-2 | until 1792406161
 PAS-003 | REVIEW | joahan-2 | until 1792406215
-PAS-006 | CLAIMED | joahan-2 | until 1792394589
+PAS-006 | REVIEW | joahan-2 | until 1792406319
 PAS-007 | REVIEW | joahan-1 | until 1792406261
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
