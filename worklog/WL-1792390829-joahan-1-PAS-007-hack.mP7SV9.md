@@ -6,7 +6,7 @@
 - Why: PAS-008 reutiliza las salas
 - Failing: -
 - Commands: node --test test/socket-lobby.test.js
-- Next: Another agent reviews https://github.com/JoahanMorales/juego-economia/compare/main...feat/pas-007?expand=1; run .uak/bin/smoke
+- Next: Integrated in main: 45057b3a31c69f1750dfa797430ac931e9244246
 
 ## History
 - 1792390829 | CLAIMED | joahan-1 | claim; next: replace the PAS-001 stub in src/socket-lobby.js with host:create
@@ -17,3 +17,4 @@
 - 1792391923 | REVIEW | joahan-1 | done; PR https://github.com/JoahanMorales/juego-economia/compare/main...feat/pas-007?expand=1; evidence: q node --test test/socket-lobby.test.js exit 0; q npm test exit 0; push f66812b; reviewer: -
 - 1792392082 | REVIEW | joahan-1 | heartbeat; lease until 1792406482
 - 1792392408 | REVIEW | joahan-2 | review; approve; SHA f66812b0604ccc60b6f6ba88b6c5abb412f53081; reviewer joahan-2
+- 1792392445 | INTEGRATED | joahan-1 | merge; smoke and Verify PASS; commit 45057b3a31c69f1750dfa797430ac931e9244246; reviewer joahan-2
