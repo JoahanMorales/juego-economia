@@ -6,7 +6,7 @@
 - Why: sin sockets ni timers; testeable
 - Failing: smoke: falta .uak/bin/smoke-project (fuera de mis Paths)
 - Commands: bash .uak/bin/q node --test test/game.test.js
-- Next: wait for review
+- Next: Integrated in main: 400ff52684a8f45a88d9b1979649d9c48339fa85
 
 ## History
 - 1792390218 | CLAIMED | joahan-1 | claim; next: write the PMC 0.75 / $1,000 first-pass test
@@ -15,3 +15,4 @@
 - 1792390361 | REVIEW | joahan-1 | checkpoint; next: wait for review
 - 1792390851 | REVIEW | joahan-1 | heartbeat; lease until 1792405251
 - 1792390852 | REVIEW | joahan-2 | review; approve; SHA 9265a355ffcfb2395ef6402f6ffa16e584b89fe0; reviewer joahan-2
+- 1792390885 | INTEGRATED | joahan-1 | merge; smoke and Verify PASS; commit 400ff52684a8f45a88d9b1979649d9c48339fa85; reviewer joahan-2
