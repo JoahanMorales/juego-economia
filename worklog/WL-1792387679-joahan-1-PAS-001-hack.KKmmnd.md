@@ -6,7 +6,7 @@
 - Why: no version pinned in task
 - Failing: -
 - Commands: npm ci && node --test test/health.test.js
-- Next: wait for review of 6d39af7
+- Next: Humano: Shared resource/CI needs a human: .uak/bin/.smoke-project.provenance
 
 ## History
 - 1792387679 | CLAIMED | joahan-1 | claim; next: npm init -y, then one npm install with every dependency of the task
@@ -16,3 +16,4 @@
 - 1792388166 | REVIEW | joahan-1 | heartbeat; lease until 1792402566
 - 1792388190 | REVIEW | joahan-2 | review; approve; SHA 6d39af727480319db90eba2221f25ef02214e592; reviewer joahan-2
 - 1792388198 | REVIEW | joahan-1 | heartbeat; lease until 1792402598
+- 1792388204 | REVIEW | joahan-1 | merge rechazado; Shared resource/CI needs a human: .uak/bin/.smoke-project.provenance
