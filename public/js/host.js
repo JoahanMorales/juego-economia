@@ -77,7 +77,10 @@
   }
 
   // ---------- Render ----------
+  var lastPhase = null;
   function render(s) {
+    if (s.phase === 'final' && lastPhase === 'playing' && window.Sfx) Sfx.end();
+    lastPhase = s.phase;
     state = s;
     document.body.dataset.phase = s.phase;
     document.body.dataset.paused = String(!!(s.game && s.game.paused));
@@ -193,6 +196,33 @@
     if (fresh) now.classList.add('enter');
     rows.push(now);
     track.replaceChildren.apply(track, rows);
+    if (fresh) {
+      var ok = !g.lastEvent || g.lastEvent.ok;
+      if (window.Sfx) { if (ok) Sfx.pass(); else Sfx.miss(); }
+      flyBill(money(g.amount));
+    }
+  }
+
+  // The bill hops from the node of the pass that just happened to the new holder's node.
+  var reduced = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+  function flyBill(text) {
+    var nodes = $('track').querySelectorAll('.node');
+    if (reduced.matches || nodes.length < 2 || !document.body.animate) return;
+    var a = nodes[nodes.length - 2].getBoundingClientRect(), b = nodes[nodes.length - 1].getBoundingClientRect();
+    var fly = $('flyer');
+    fly.textContent = text;
+    fly.hidden = false;
+    var w = fly.offsetWidth, h = fly.offsetHeight;
+    var x1 = a.left + a.width / 2 - w / 2, y1 = a.top + a.height / 2 - h / 2;
+    var x2 = b.left + b.width / 2 - w / 2, y2 = b.top + b.height / 2 - h / 2;
+    var lift = Math.min(90, Math.max(40, Math.abs(x2 - x1) * 0.5));
+    var anim = fly.animate([
+      { transform: 'translate(' + x1 + 'px,' + y1 + 'px) scale(0.6)', opacity: 0 },
+      { transform: 'translate(' + x1 + 'px,' + (y1 - lift * 0.6) + 'px) scale(1)', opacity: 1, offset: 0.25 },
+      { transform: 'translate(' + (x1 + x2) / 2 + 'px,' + (Math.min(y1, y2) - lift) + 'px) scale(1.05)', opacity: 1, offset: 0.55 },
+      { transform: 'translate(' + x2 + 'px,' + y2 + 'px) scale(0.6)', opacity: 0 }
+    ], { duration: 900, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' });
+    anim.onfinish = function () { fly.hidden = true; };
   }
 
   // Final
@@ -230,9 +260,42 @@
       ti += r.income; ts += r.ok ? r.saving : 0; tc += r.consumption;
       return tr;
     }));
+    drawChart(f, inv / (1 - s.settings.pmc));
     setText($('t-income'), money(ti));
     setText($('t-saving'), money(ts));
     setText($('t-cons'), money(tc));
+  }
+
+  // Bars: the income of each pass. Line: the running total. Dashes: k × ΔI. One scale (0 → theory) so the
+  // shrinking bars visibly add up to the line that approaches the theory.
+  var SVG = 'http://www.w3.org/2000/svg';
+  function el(name, attrs, text) {
+    var n = document.createElementNS(SVG, name);
+    Object.keys(attrs).forEach(function (k) { n.setAttribute(k, String(attrs[k])); });
+    if (text != null) n.textContent = text;
+    return n;
+  }
+  function drawChart(f, theory) {
+    var svg = $('chart'), W = Math.max(200, Math.round(svg.getBoundingClientRect().width)), H = 170;
+    var padL = 4, padR = 156, top = 14, bottom = H - 18, plotW = W - padL - padR, n = f.ledger.length;
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    var y = function (v) { return bottom - (v / theory) * (bottom - top); };
+    var step = n ? plotW / n : plotW, bw = Math.max(2, Math.min(18, step * 0.62));
+    var parts = [el('line', { 'class': 'base', x1: padL, x2: padL + plotW, y1: bottom, y2: bottom })];
+    var cum = 0, pts = [];
+    f.ledger.forEach(function (r, i) {
+      var cx = padL + step * i + step / 2;
+      parts.push(el('rect', { 'class': r.ok ? 'bar' : 'bar miss', x: (cx - bw / 2).toFixed(1), y: y(r.income).toFixed(1), width: bw.toFixed(1), height: Math.max(1, bottom - y(r.income)).toFixed(1) }));
+      cum += r.income;
+      pts.push(cx.toFixed(1) + ',' + y(cum).toFixed(1));
+    });
+    parts.push(el('line', { 'class': 'theory', x1: padL, x2: padL + plotW, y1: y(theory), y2: y(theory) }));
+    if (pts.length) parts.push(el('polyline', { 'class': 'cum', points: pts.join(' ') }));
+    parts.push(el('text', { x: padL + plotW + 10, y: y(theory) + 4, 'class': 'strong' }, 'k × ΔI ' + money(theory)));
+    parts.push(el('text', { x: padL + plotW + 10, y: y(cum) + 20 }, 'se movió ' + money(f.moved)));
+    parts.push(el('text', { x: padL, y: H - 2 }, 'pase 1'));
+    parts.push(el('text', { x: padL + plotW, y: H - 2, 'text-anchor': 'end' }, 'pase ' + n));
+    svg.replaceChildren.apply(svg, parts);
   }
 
   // ---------- Clock: one rAF loop, driven by the msLeft of the last state ----------
@@ -272,6 +335,12 @@
     $(id).addEventListener('keydown', function (e) { if (e.key === 'Enter') e.target.blur(); });
   });
 
+  $('sound').addEventListener('click', function () {
+    var on = this.getAttribute('aria-pressed') !== 'true';
+    this.setAttribute('aria-pressed', String(on));
+    this.textContent = on ? 'Sonido sí' : 'Sonido';
+    if (window.Sfx) { Sfx.set(on); if (on) Sfx.pass(); }
+  });
   $('bots').addEventListener('click', function () { socket.emit(E.HOST_ADD_BOTS, { count: 5 }); });
   $('start').addEventListener('click', function () { socket.emit(E.HOST_START, {}); });
   confirmClick($('end'), '¿Terminar?', function () { socket.emit(E.HOST_END, {}); });

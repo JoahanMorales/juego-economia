@@ -155,3 +155,29 @@ main.final { grid-template-columns: 1.05fr 1fr; gap: 44px; min-height: 0; }
 
 /* Errors from the server */
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: var(--z-toast); padding: 12px 20px; background: var(--surface-2); border-left: 6px solid var(--err); border-radius: var(--radius); font-size: 19px; }
+
+/* ---------- PAS-014 polish ---------- */
+.meta .sound[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
+
+/* The flying bill: money leaving one node and landing on the next (transform and opacity only) */
+.flyer { position: fixed; left: 0; top: 0; z-index: var(--z-flyer); padding: 6px 10px; border-radius: var(--radius);
+  background: var(--surface-2); box-shadow: inset 0 0 0 2px var(--gold); color: var(--gold); font-size: 16px; font-weight: 700;
+  pointer-events: none; will-change: transform, opacity; }
+
+/* Final chart: the income of each pass and the running total against k × ΔI, one scale */
+.chart { margin: 0 0 16px; }
+.chart figcaption { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+.chart .label { font-size: 16px; }
+.legend { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); white-space: nowrap; }
+.legend i { display: inline-block; margin-left: 10px; }
+.legend .lg-bar { width: 8px; height: 12px; background: var(--gold); }
+.legend .lg-line { width: 16px; height: 3px; background: var(--text); }
+.legend .lg-theory { width: 16px; height: 0; border-top: 2px dashed var(--text-muted); }
+#chart { display: block; width: 100%; height: 170px; overflow: visible; }
+#chart .base { stroke: var(--line); stroke-width: 1; }
+#chart .bar { fill: var(--gold); }
+#chart .bar.miss { fill: var(--bg); stroke: var(--err); stroke-width: 1.5; }
+#chart .cum { fill: none; stroke: var(--text); stroke-width: 2.5; stroke-linejoin: round; }
+#chart .theory { stroke: var(--text-muted); stroke-width: 1.5; stroke-dasharray: 6 5; }
+#chart text { fill: var(--text-muted); font: 500 12px var(--font-mono); }
+#chart text.strong { fill: var(--text); font-weight: 700; }

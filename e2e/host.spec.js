@@ -62,3 +62,54 @@ test('sin guiones largos ni colores fuera de los tokens en el texto visible', as
     expect(text).not.toMatch(/[—–]/);
   }
 });
+
+// PAS-014: the polish on top of the 3 phases.
+test('final: la gráfica tiene una barra por pase, los errores marcados y la línea de la teoría', async ({ page }) => {
+  await open(page, 'final');
+  await expect(page.locator('#chart rect.bar')).toHaveCount(25);
+  await expect(page.locator('#chart rect.bar.miss')).toHaveCount(2);
+  await expect(page.locator('#chart polyline.cum')).toHaveCount(1);
+  await expect(page.locator('#chart line.theory')).toHaveCount(1);
+  await expect(page.locator('#chart')).toContainText('k × ΔI $4,000.00');
+  await fitsViewport(page);
+});
+
+test('sonido: apagado por defecto y se prende con el botón', async ({ page }) => {
+  await open(page, 'playing');
+  const sound = page.locator('#sound');
+  await expect(sound).toHaveAttribute('aria-pressed', 'false');
+  await sound.click();
+  await expect(sound).toHaveAttribute('aria-pressed', 'true');
+  expect(await page.evaluate(() => window.Sfx.enabled())).toBe(true);
+});
+
+test.describe('con animaciones', () => {
+  test.use({ reducedMotion: 'no-preference' });
+  test('un pase nuevo hace volar el billete y luego lo esconde', async ({ page }) => {
+    // Keep a handle on the fake socket so the test can push the next room:state.
+    await page.addInitScript(() => {
+      let real;
+      Object.defineProperty(window, 'createSocket', {
+        configurable: true,
+        set(fn) { real = fn; },
+        get() { return (o) => (window.__sock = real(o)); },
+      });
+    });
+    await open(page, 'playing');
+    await page.waitForFunction(() => window.__sock && window.__sock.data);
+    await page.evaluate(() => {
+      clearInterval(window.__sock.timer); // the mock's clock would replay the old state every second
+      const s = JSON.parse(JSON.stringify(window.__sock.data.state)), g = s.game;
+      const income = g.amount, saving = Math.round(income * 25) / 100;
+      g.ledgerTail = g.ledgerTail.slice(1).concat([{ n: g.passes + 1, playerId: g.holderId, name: 'Regina', income, saving, consumption: Math.round((income - saving) * 100) / 100, ok: true, reason: 'ok' }]);
+      g.passes += 1; g.turn += 1; g.amount = Math.round((income - saving) * 100) / 100; g.holderId = 'p1'; g.msLeft = 10000;
+      g.lastEvent = { ok: true, text: 'Regina se quedó $25.03 y le pasó $75.08 a Ximena' };
+      window.__sock.data.state = s;
+      window.__sock.fire('room:state', s);
+    });
+    await expect(page.locator('#flyer')).toBeVisible();
+    await expect(page.locator('#flyer')).toHaveText('$75.08');
+    await expect(page.locator('#flyer')).toBeHidden({ timeout: 3000 });
+    await expect(page.locator('#holder')).toHaveText('Ximena');
+  });
+});
