@@ -17,6 +17,14 @@ async function phone(browser, code, name) {
   return page;
 }
 
+// The saving a phone shows when it does not hold the money (null while it is its turn).
+async function visibleSaved(page) {
+  const id = await page.locator('section.screen:not([hidden])').getAttribute('id');
+  if (id === 's-other') return page.locator('#other-saved').innerText();
+  if (id === 's-passed') return page.locator('#passed-saved').innerText();
+  return null;
+}
+
 // If this phone holds the money, answer (right or wrong) and pass it to `to`. Returns true when it played.
 async function playIfMyTurn(page, { right, to }) {
   if (!(await page.locator('#s-turn').isVisible())) return false;
@@ -42,9 +50,17 @@ test('una ronda completa con proyector, dos celulares y bots', async ({ browser 
   await expect(host.locator('#count')).toHaveText('2');
   await expect(host.locator('#chips')).toContainText('Ana');
 
+  // The slide's case: $1,000 and PMC 0.75 (k = 4). The UI adds bots 5 at a time.
+  await host.locator('#inv').fill('1000');
+  await host.locator('#pmc').fill('0.75');
+  await host.locator('#pmc').press('Enter');
+  await expect(host.locator('#inv')).toHaveValue(/^1,?000(\.00)?$/);
+  await expect(host.locator('#pmc')).toHaveValue('0.75');
+  await expect(host.locator('#k-preview')).toContainText('k = 4');
+  await expect(host.locator('#k-preview')).toContainText('$4,000.00');
+  await host.waitForTimeout(1100); // the server allows 1 action/s per socket
   await host.locator('#bots').click();
   await expect(host.locator('#chips .chip')).toHaveCount(7);
-  await expect(host.locator('#k-preview')).toContainText('$4,000.00');
   await host.locator('#start').click();
   await expect(host.locator('body')).toHaveAttribute('data-phase', 'playing');
   await expect(ana.locator('section.screen:not([hidden])')).toHaveAttribute('id', /^s-(other|turn)$/);
@@ -61,9 +77,30 @@ test('una ronda completa con proyector, dos celulares y bots', async ({ browser 
   expect(luisPlayed).toBeGreaterThan(0);
   await expect(host.locator('#track li[data-ok="false"]').first()).toBeAttached();
 
-  // A phone reloads mid game: same player, saving kept. The projector reloads: same room.
+  // A phone reloads mid game: same player and same saving. Luis now passes to the bots so Ana is
+  // usually not holding the money when we read her saving.
+  let savedBefore = null;
+  for (let i = 0; i < 80 && savedBefore === null; i++) {
+    await playIfMyTurn(ana, { right: true, to: 'Luis' });
+    await playIfMyTurn(luis, { right: true, to: 'Bot' });
+    savedBefore = await visibleSaved(ana);
+  }
+  expect(savedBefore).toMatch(/^\$[\d,]+\.\d{2}$/);
+  expect(moneyToNumber(savedBefore)).toBeGreaterThan(0);
   await ana.reload();
   await expect(ana.locator('section.screen:not([hidden])')).toHaveAttribute('id', /^s-(other|turn|passed)$/);
+  const savedAfter = await visibleSaved(ana);
+  if (savedAfter !== null) expect(savedAfter).toBe(savedBefore); // null only if the money reached Ana meanwhile
+  // No duplicate player: when Luis holds the money, Ana is in his list once and there is no "Ana 2".
+  for (let i = 0; i < 120 && !(await luis.locator('#s-turn').isVisible()); i++) {
+    await playIfMyTurn(ana, { right: true, to: 'Luis' });
+    await luis.waitForTimeout(250);
+  }
+  await expect(luis.locator('#mates button', { hasText: /^Ana$/ })).toHaveCount(1);
+  await expect(luis.locator('#mates button', { hasText: 'Ana 2' })).toHaveCount(0);
+  await playIfMyTurn(luis, { right: false, to: 'Ana' });
+
+  // The projector reloads: same room, same game.
   await host.reload();
   await expect(host.locator('body')).toHaveAttribute('data-phase', 'playing');
   await expect(host.locator('#m-code')).toHaveText(code);
