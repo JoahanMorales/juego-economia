@@ -13,3 +13,4 @@
 - 1792393356 | CLAIMED | joahan-2 | checkpoint; next: re-run the flow spec, fix the next failure, then /uak-ship
 - 1792403089 | CLAIMED | joahan-2 | heartbeat; lease until 1792405789
 - 1792403279 | REVIEW | joahan-2 | done; PR https://github.com/JoahanMorales/juego-economia/compare/main...feat/pas-011?expand=1; evidence: npx playwright test e2e/flow.spec.js --project=projector passed 3 runs in a row; npm test exit 0; sha de7d778; reviewer: -
+- 1792403323 | REVIEW | joahan-1 | review; reject; SHA de7d77872fc1d997d1c80aa58ec67d817e4be44a; reviewer joahan-1
