@@ -1,0 +1,78 @@
+{
+  "demo_data": true,
+  "mock": "lobby",
+  "you": null,
+  "host": {
+    "code": "KFTR",
+    "hostToken": "demo",
+    "joinUrl": "http://localhost:3000/play.html?code=KFTR",
+    "qr": "data:image/png;base64,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"
+  },
+  "state": {
+    "code": "KFTR",
+    "phase": "lobby",
+    "settings": {
+      "investment": 1000,
+      "pmc": 0.75
+    },
+    "players": [
+      {
+        "id": "p1",
+        "name": "Ximena",
+        "saved": 0,
+        "errors": 0,
+        "connected": true,
+        "isBot": false
+      },
+      {
+        "id": "p2",
+        "name": "Diego",
+        "saved": 0,
+        "errors": 0,
+        "connected": true,
+        "isBot": false
+      },
+      {
+        "id": "p3",
+        "name": "Fernanda",
+        "saved": 0,
+        "errors": 0,
+        "connected": true,
+        "isBot": false
+      },
+      {
+        "id": "p4",
+        "name": "Emiliano",
+        "saved": 0,
+        "errors": 0,
+        "connected": true,
+        "isBot": false
+      },
+      {
+        "id": "p5",
+        "name": "Regina",
+        "saved": 0,
+        "errors": 0,
+        "connected": true,
+        "isBot": false
+      },
+      {
+        "id": "p6",
+        "name": "Bot Tendera",
+        "saved": 0,
+        "errors": 0,
+        "connected": true,
+        "isBot": true
+      },
+      {
+        "id": "p7",
+        "name": "Santiago",
+        "saved": 0,
+        "errors": 0,
+        "connected": false,
+        "isBot": false
+      }
+    ],
+    "game": null
+  }
+}
