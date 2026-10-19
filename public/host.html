@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pásala · Presentador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/host.css">
+</head>
+<body data-phase="connecting">
+  <header class="bar">
+    <div class="brand">Pás<span>a</span>la</div>
+    <p class="status" id="status" hidden>Reconectando con el servidor…</p>
+    <div class="meta">
+      <span>Sala<b id="m-code">····</b></span>
+      <span>PMC<b id="m-pmc">-</b></span>
+      <span class="only-game">Pase<b id="m-turn">-</b></span>
+      <button type="button" class="ghost only-game" id="end">Terminar ahora</button>
+    </div>
+  </header>
+
+  <!-- Lobby -->
+  <main class="lobby only-lobby" aria-labelledby="lobby-title">
+    <section class="join">
+      <h1 class="label" id="lobby-title">Entra con tu celular</h1>
+      <div class="qr"><img id="qr" alt="Código QR para entrar a la sala" width="232" height="232"></div>
+      <p class="code mono" id="code">····</p>
+      <p class="url mono" id="join-url"></p>
+    </section>
+    <section class="people">
+      <div class="people-head">
+        <h2 class="label">Jugadores</h2>
+        <p class="count"><b class="mono" id="count">0</b> <span id="count-word">conectados</span></p>
+      </div>
+      <ul class="chips" id="chips"></ul>
+      <p class="empty" id="empty">Escanea el QR o entra a la página y escribe el código.</p>
+      <div class="setup">
+        <div class="presets" id="presets" role="group" aria-label="Casos de la presentación"></div>
+        <div class="custom">
+          <label class="field"><span>Inversión</span><input id="inv" inputmode="decimal" autocomplete="off"></label>
+          <label class="field small"><span>PMC</span><input id="pmc" inputmode="decimal" autocomplete="off"></label>
+          <p class="k" id="k-preview"></p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="controls only-lobby">
+    <p class="hint" id="start-hint">Se necesitan al menos 2 jugadores conectados.</p>
+    <button type="button" class="ghost" id="bots">Agregar 5 bots</button>
+    <button type="button" class="go" id="start" disabled>¡Arrancar!</button>
+  </footer>
+
+  <!-- En juego -->
+  <main class="game only-game">
+    <section class="stage">
+      <p class="label">Tiene el dinero</p>
+      <h1 class="holder" id="holder">-</h1>
+      <div class="money-row">
+        <div class="amount money" id="amount">$0.00</div>
+        <div class="ring" role="timer" aria-label="Segundos restantes" id="ring"><b id="secs">10</b></div>
+      </div>
+      <div class="lower-third" id="event" data-ok="true"><p id="event-text">El dinero está por salir.</p></div>
+    </section>
+    <aside class="side">
+      <div>
+        <p class="label">Dinero que se ha movido</p>
+        <div class="moved money" id="moved">$0.00</div>
+        <p class="theory">La teoría dice <b class="mono" id="theory">$0.00</b> (k = <span id="k">-</span>)</p>
+        <div class="meter"><i id="meter"></i></div>
+      </div>
+      <div>
+        <p class="label">Ahorro</p>
+        <ol class="rank" id="rank"></ol>
+      </div>
+    </aside>
+  </main>
+  <section class="chain only-game" aria-label="La cadena del dinero">
+    <ol class="track" id="track"></ol>
+  </section>
+
+  <!-- Final -->
+  <main class="final only-final">
+    <section class="story">
+      <h1 class="verdict"><span class="money" id="f-inv">$0.00</span> de inversión movieron <span class="money" id="f-moved">$0.00</span> en la economía</h1>
+      <div class="formula">
+        <p><span class="label">Multiplicador</span><b class="mono" id="f-k">k = 1 / (1 − PMC)</b></p>
+        <p><span class="label">La teoría dice</span><b class="mono" id="f-theory">$0.00</b></p>
+        <p><span class="label">Ahorro de todos</span><b class="mono" id="f-saved">$0.00</b></p>
+      </div>
+      <p class="note" id="f-note"></p>
+      <ol class="podium" id="podium" aria-label="Podio"></ol>
+      <div class="final-actions">
+        <button type="button" class="go" id="again">Otra ronda</button>
+        <button type="button" class="ghost" id="to-lobby">Cambiar PMC</button>
+      </div>
+    </section>
+    <section class="ledger" aria-label="La cadena completa">
+      <table>
+        <thead><tr><th scope="col">#</th><th scope="col">Quién</th><th scope="col" class="num">Ingreso</th><th scope="col" class="num">Ahorro</th><th scope="col" class="num">Pasa</th></tr></thead>
+        <tbody id="ledger"></tbody>
+        <tfoot><tr><th scope="row" colspan="2">Total</th><td class="num" id="t-income"></td><td class="num" id="t-saving"></td><td class="num" id="t-cons"></td></tr></tfoot>
+      </table>
+    </section>
+  </main>
+
+  <p class="toast" id="toast" role="status" hidden></p>
+
+  <template id="tpl-chip"><li class="chip"><span class="nm"></span><button type="button" class="kick" aria-label="Sacar">×</button></li></template>
+  <template id="tpl-rank"><li><span class="pos"></span><span class="nm"></span><span class="sv mono"></span></li></template>
+  <template id="tpl-node"><li><span class="node"></span><span class="nm"></span><span class="in mono"></span><span class="sv mono"></span></li></template>
+  <template id="tpl-row"><tr><td class="mono n"></td><td class="nm"></td><td class="num in"></td><td class="num sv"></td><td class="num cs"></td></tr></template>
+  <template id="tpl-step"><li><span class="place"></span><span class="nm"></span><span class="sv mono"></span><span class="block"></span></li></template>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/protocol.js"></script>
+  <script src="js/format.js"></script>
+  <script src="js/mock-socket.js"></script>
+  <script src="js/host.js"></script>
+</body>
+</html>
