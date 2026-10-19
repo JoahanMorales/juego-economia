@@ -12,7 +12,15 @@ module.exports = defineConfig({
     reuseExistingServer: !process.env.CI,
   },
   projects: [
-    { name: 'projector', use: { viewport: { width: 1280, height: 720 } } },
-    { name: 'phone', use: { viewport: { width: 390, height: 844 } } },
+    {
+      name: 'projector',
+      testMatch: ['host.spec.js', 'flow.spec.js'],
+      use: { viewport: { width: 1280, height: 720 } },
+    },
+    {
+      name: 'phone',
+      testMatch: ['play.spec.js'],
+      use: { viewport: { width: 390, height: 844 } },
+    },
   ],
 });
