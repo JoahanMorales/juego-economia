@@ -113,3 +113,25 @@ test.describe('con animaciones', () => {
     await expect(page.locator('#holder')).toHaveText('Ximena');
   });
 });
+
+// IDEA cases 1 and 2 use $1,000,000: the chart labels must stay inside the chart.
+test('final: con millones las etiquetas de la gráfica no se cortan', async ({ page }) => {
+  await page.route('**/mock/final.json', async (route) => {
+    const json = await (await route.fetch()).json();
+    const x = 1000;
+    json.state.settings.investment *= x;
+    json.state.final.moved = 3999996.77;
+    json.state.final.theoretical *= x;
+    json.state.final.ledger.forEach((r) => { r.income *= x; r.saving *= x; r.consumption *= x; });
+    await route.fulfill({ json });
+  });
+  await open(page, 'final');
+  await expect(page.locator('#chart')).toContainText('se movió $3,999,996.77');
+  await expect(page.locator('#chart')).toContainText('k × ΔI $4,000,000.00');
+  const clipped = await page.locator('#chart').evaluate((svg) => {
+    const right = svg.getBoundingClientRect().right;
+    return [...svg.querySelectorAll('text')].filter((t) => t.getBoundingClientRect().right > right + 0.5).map((t) => t.textContent);
+  });
+  expect(clipped).toEqual([]);
+  await fitsViewport(page);
+});

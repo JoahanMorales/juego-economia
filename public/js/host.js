@@ -278,7 +278,10 @@
   }
   function drawChart(f, theory) {
     var svg = $('chart'), W = Math.max(200, Math.round(svg.getBoundingClientRect().width)), H = 170;
-    var padL = 4, padR = 156, top = 14, bottom = H - 18, plotW = W - padL - padR, n = f.ledger.length;
+    var theoryLabel = 'k × ΔI ' + money(theory), movedLabel = 'se movió ' + money(f.moved);
+    // The right margin fits the longer label (12px mono ≈ 7.2px per character), so millions are not clipped.
+    var padL = 4, padR = 12 + Math.ceil(7.4 * Math.max(theoryLabel.length, movedLabel.length));
+    var top = 14, bottom = H - 18, plotW = W - padL - padR, n = f.ledger.length;
     svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
     var y = function (v) { return bottom - (v / theory) * (bottom - top); };
     var step = n ? plotW / n : plotW, bw = Math.max(2, Math.min(18, step * 0.62));
@@ -292,8 +295,8 @@
     });
     parts.push(el('line', { 'class': 'theory', x1: padL, x2: padL + plotW, y1: y(theory), y2: y(theory) }));
     if (pts.length) parts.push(el('polyline', { 'class': 'cum', points: pts.join(' ') }));
-    parts.push(el('text', { x: padL + plotW + 10, y: y(theory) + 4, 'class': 'strong' }, 'k × ΔI ' + money(theory)));
-    parts.push(el('text', { x: padL + plotW + 10, y: y(cum) + 20 }, 'se movió ' + money(f.moved)));
+    parts.push(el('text', { x: padL + plotW + 10, y: y(theory) + 4, 'class': 'strong' }, theoryLabel));
+    parts.push(el('text', { x: padL + plotW + 10, y: y(cum) + 20 }, movedLabel));
     parts.push(el('text', { x: padL, y: H - 2 }, 'pase 1'));
     parts.push(el('text', { x: padL + plotW, y: H - 2, 'text-anchor': 'end' }, 'pase ' + n));
     svg.replaceChildren.apply(svg, parts);
