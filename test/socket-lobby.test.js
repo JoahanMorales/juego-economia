@@ -136,6 +136,25 @@ test('host:kick saca al jugador', async () => {
   assert.equal((await empty).players.length, 0);
 });
 
+test('en fase final se emite final.theoretical y un ranking no vacío', async () => {
+  const game = require('../src/game');
+  const { host, code } = await newRoom();
+  const a = client();
+  const b = client();
+  await ask(a, 'player:join', { code, name: 'Ana' });
+  await ask(b, 'player:join', { code, name: 'Beto' });
+  const room = srv.ctx.rooms.find(code);
+  game.startGame(room);
+  game.resolveTurn(room, { turn: 1, saving: 0 });
+  game.finish(room);
+  const pending = until(host, (s) => s.phase === 'final');
+  srv.ctx.broadcast(room);
+  const state = await pending;
+  assert.equal(state.final.theoretical, game.round2(room.settings.investment / (1 - room.settings.pmc)));
+  assert.ok(state.final.ranking.length > 0);
+  assert.equal(JSON.stringify(state).includes('hostToken'), false);
+});
+
 test('límite de 1 acción por segundo por socket', async () => {
   srv.ctx.rateMs = undefined;
   try {
