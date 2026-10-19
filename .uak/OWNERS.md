@@ -9,7 +9,7 @@ An owner is not a prerequisite for everyone: consumers work on published contrac
 | package-lock.json | PAS-001 |
 | server.js | PAS-001 |
 | render.yaml | PAS-001 |
-| playwright.config.js | PAS-001 |
+| playwright.config.js | PAS-020 |
 | .uak/bin/smoke-project | PAS-001 |
 | .github/workflows/ | PAS-001 |
 | .uak/PROJECT.md | PAS-001 |
