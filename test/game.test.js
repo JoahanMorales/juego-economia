@@ -168,3 +168,32 @@ test('startGame reinicia contadores y elige holder conectado', () => {
   assert.equal(r.phase, 'playing');
   assert.equal(r.game.amount, 1000);
 });
+
+test('no regreses la papa: quien te lo pasó no es destino válido, salvo si sólo quedan dos', () => {
+  const r = mk(3, { noReturn: true }); g.startGame(r, () => 0, 0);          // p0 holds
+  play(r, 250, 'p1');                                                       // p0 → p1
+  assert.equal(r.game.prevId, 'p0');
+  play(r, 187.5, 'p0', () => 0);                                            // p1 tries to return it to p0
+  assert.equal(r.game.holderId, 'p2', 'rerouted to the only other valid player');
+  const two = mk(2, { noReturn: true }); g.startGame(two, () => 0, 0);
+  play(two, 250, 'p1');
+  play(two, 187.5, 'p0');
+  assert.equal(two.game.holderId, 'p0', 'with 2 players the money goes back and forth');
+});
+
+test('no regreses la papa: el estado público lo anuncia sólo cuando está activo', () => {
+  const off = mk(3); g.startGame(off, () => 0, 0);
+  assert.equal('noReturn' in g.publicState(off, 0).settings, false);
+  assert.equal('prevId' in g.publicState(off, 0).game, false);
+  const on = mk(3, { noReturn: true }); g.startGame(on, () => 0, 0); play(on, 250, 'p1');
+  const s = g.publicState(on, 0);
+  assert.equal(s.settings.noReturn, true);
+  assert.equal(s.game.prevId, 'p0');
+});
+
+test('validateSettings acepta noReturn booleano y rechaza otros tipos', () => {
+  const { validateSettings } = require('../src/validate');
+  assert.deepEqual(validateSettings({ investment: 1000, pmc: 0.75, noReturn: true }).value, { investment: 1000, pmc: 0.75, noReturn: true });
+  assert.deepEqual(validateSettings({ investment: 1000, pmc: 0.75 }).value, { investment: 1000, pmc: 0.75 });
+  assert.equal(validateSettings({ investment: 1000, pmc: 0.75, noReturn: 'sí' }).ok, false);
+});

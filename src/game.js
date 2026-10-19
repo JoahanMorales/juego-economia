@@ -150,6 +150,11 @@ function publicState(room, now = Date.now()) {
         }
       : null,
   };
+  // "No regreses la papa" (IDEA §2): only present when on, so the default state keeps its shape.
+  if (room.settings.noReturn) {
+    state.settings.noReturn = true;
+    if (state.game) state.game.prevId = g.prevId;
+  }
   if (room.phase === 'final') state.final = finalSummary(room);
   return state;
 }
