@@ -14,3 +14,4 @@ Why: a reversible option after 15 min keeps work moving.
 - 1792403046 | deadline lease/PAS-012/1792395988 | REQUIRES_RECOVERY | Claim kept; read the summary and use release --expired --read-summary. No work is deleted.
 - 1792403375 | PAS-012 | rate_limit de 1/s hace que tiempos de pensar cortos con pocos jugadores midan mal; defaults IDEA no lo afectan | Why: limiter del servidor por socket
 - 1792404340 | PAS-019 | follow-up of PAS-001 by joahan-2: playwright.config.js: cada proyecto corre sólo sus specs (proyector: host y flow; celular: play), así npx playwright test pasa completo | Why: same Paths, no scope change
+- 1792404375 | plan | JoahanMorales/JoahanMorales | tasks added: PAS-020 | Why: backlog without PR (Plan-Channel: claims)

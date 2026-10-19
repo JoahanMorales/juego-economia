@@ -42,3 +42,19 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - playwright.config.js: cada proyecto corre sólo sus specs (proyector: host y flow; celular: play), así npx playwright test pasa completo
 - **Verify:** `npm ci --no-audit --no-fund && node --test test/health.test.js`
+## PAS-020 · Playwright: cada proyecto corre sólo sus specs
+
+- **Type:** bug
+- **Priority:** P1
+- **Estimate:** 15 min
+- **Rubric / Spec:** C7 · README "Pruebas en navegador"
+- **Depends on:** PAS-001
+- **Paths:** playwright.config.js
+- **Freeze-Allowed:** yes
+- **Acceptance:**
+  - The `projector` project only matches e2e/host.spec.js and e2e/flow.spec.js; the `phone` project only matches e2e/play.spec.js.
+  - `npx playwright test` with no flags passes every spec (the README command).
+- **Verify:** `npx playwright test`
+- **Next step:** add testMatch to both projects in playwright.config.js.
+
+| playwright.config.js | PAS-020 |
