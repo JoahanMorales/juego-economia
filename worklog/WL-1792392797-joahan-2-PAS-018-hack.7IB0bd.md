@@ -11,3 +11,4 @@
 ## History
 - 1792392797 | CLAIMED | joahan-2 | claim; next: failing impersonation test in test/rooms.test.js
 - 1792392880 | REVIEW | joahan-2 | done; PR https://github.com/JoahanMorales/juego-economia/compare/main...feat/pas-018?expand=1; evidence: node --test rooms+socket-lobby exit 0; npm test exit 0; e2e play 6 passed; sha 6e47b10; reviewer: -
+- 1792393274 | REVIEW | joahan-1 | review; approve; SHA 6e47b1084b87e33871a30bdfcce345a7d7d2910e; reviewer joahan-1
