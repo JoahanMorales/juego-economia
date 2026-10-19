@@ -6,7 +6,7 @@
 - Why: Parallel work without touching the main checkout
 - Failing: No validation run yet
 - Commands: `node --test test/rooms.test.js test/socket-lobby.test.js`
-- Next: Humano: Edits a file outside Paths: test/socket-game.test.js (Paths of PAS-008). Revert that file on the branch (git checkout origin/main -- test/socket-game.test.js), or the human merges the PR
+- Next: Integrated in main: 8ed5b88e9b8a5e3f8f484476c4c1678daa9400f4 (recorded by joahan-2)
 
 ## History
 - 1792392797 | CLAIMED | joahan-2 | claim; next: failing impersonation test in test/rooms.test.js
@@ -16,3 +16,4 @@
 - 1792403065 | REVIEW | joahan-2 | done; PR https://github.com/JoahanMorales/juego-economia/compare/main...feat/pas-018?expand=1; evidence: npm test exit 0 with main merged (socket-game 9/9); sha be39693; reviewer: -
 - 1792403151 | REVIEW | joahan-1 | review; approve; SHA be39693be054feb39bda3c216604c26b5e1f5c73; reviewer joahan-1
 - 1792403412 | REVIEW | joahan-2 | merge rechazado; Edits a file outside Paths: test/socket-game.test.js (Paths of PAS-008). Revert that file on the branch (git checkout origin/main -- test/socket-game.test.js), or the human merges the PR
+- 1792403434 | INTEGRATED | joahan-2 | integrate; recorded by joahan-2; PR https://github.com/JoahanMorales/juego-economia/compare/main...feat/pas-018?expand=1; merged 8ed5b88e9b8a5e3f8f484476c4c1678daa9400f4; proof ancestry
