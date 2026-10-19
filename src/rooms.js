@@ -39,9 +39,10 @@ function createRooms() {
     return rooms.delete(code);
   }
 
-  function join(room, { name, playerId, socketId = null, isBot = false }) {
+  // Reconnecting needs the player's secret: the public id travels in room:state, so it proves nothing.
+  function join(room, { name, playerId, secret, socketId = null, isBot = false }) {
     const existing = playerId && room.players.get(playerId);
-    if (existing) {
+    if (existing && !existing.isBot && typeof secret === 'string' && secret === existing.secret) {
       existing.connected = true;
       existing.socketId = socketId;
       return { ok: true, player: existing, reconnected: true };
@@ -50,7 +51,8 @@ function createRooms() {
     if (!clean) return { ok: false, error: 'Escribe tu nombre para entrar.' };
     const taken = [...room.players.values()].map((p) => p.name);
     const player = {
-      id: playerId || crypto.randomUUID(),
+      id: playerId && !room.players.has(playerId) ? playerId : crypto.randomUUID(),
+      secret: crypto.randomUUID(),
       name: uniqueName(clean, taken),
       socketId,
       connected: true,

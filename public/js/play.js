@@ -38,10 +38,10 @@
 
   function joinError(msg) { $('join-err').textContent = msg || ''; }
 
-  function doJoin(code, name, playerId) {
+  function doJoin(code, name, playerId, secret) {
     if (joining) return;
     joining = true;
-    socket.emit(E.PLAYER_JOIN, { code: code, name: name, playerId: playerId || undefined }, function (res) {
+    socket.emit(E.PLAYER_JOIN, { code: code, name: name, playerId: playerId || undefined, secret: secret || undefined }, function (res) {
       joining = false;
       if (!res || res.ok === false || !res.playerId) {
         if (playerId) forget();
@@ -51,7 +51,7 @@
       }
       // In mock mode the fake ack is canned, so keep the stored id the test chose.
       var id = (isMock() && playerId) ? playerId : res.playerId;
-      me = { code: code, playerId: id, name: name };
+      me = { code: code, playerId: id, secret: res.secret || (isMock() ? secret : undefined), name: name };
       save(me);
       joinError('');
       render();
@@ -65,7 +65,8 @@
     if (!name) return joinError('Escribe tu nombre.');
     joinError('');
     var prev = load();
-    doJoin(code, name, prev && prev.code === code ? prev.playerId : null);
+    var same = prev && prev.code === code;
+    doJoin(code, name, same ? prev.playerId : null, same ? prev.secret : null);
   });
 
   // ---- turn ----
@@ -186,7 +187,7 @@
   // ---- socket ----
   function rejoin() {
     var p = me || load();
-    if (p && p.code && p.playerId) doJoin(p.code, p.name, p.playerId);
+    if (p && p.code && p.playerId) doJoin(p.code, p.name, p.playerId, p.secret);
   }
 
   socket.on('connect', function () { $('conn').hidden = true; rejoin(); });
