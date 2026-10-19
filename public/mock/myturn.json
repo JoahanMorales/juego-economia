@@ -1,0 +1,165 @@
+{
+  "demo_data": true,
+  "mock": "myturn",
+  "you": "p5",
+  "state": {
+    "code": "KFTR",
+    "phase": "playing",
+    "settings": {
+      "investment": 1000,
+      "pmc": 0.75
+    },
+    "players": [
+      {
+        "id": "p1",
+        "name": "Ximena",
+        "saved": 283.37,
+        "errors": 0,
+        "connected": true,
+        "isBot": false
+      },
+      {
+        "id": "p2",
+        "name": "Diego",
+        "saved": 187.5,
+        "errors": 1,
+        "connected": true,
+        "isBot": false
+      },
+      {
+        "id": "p3",
+        "name": "Fernanda",
+        "saved": 0,
+        "errors": 1,
+        "connected": true,
+        "isBot": false
+      },
+      {
+        "id": "p4",
+        "name": "Emiliano",
+        "saved": 105.47,
+        "errors": 0,
+        "connected": true,
+        "isBot": false
+      },
+      {
+        "id": "p5",
+        "name": "Regina",
+        "saved": 79.1,
+        "errors": 0,
+        "connected": true,
+        "isBot": false
+      },
+      {
+        "id": "p6",
+        "name": "Bot Tendera",
+        "saved": 59.33,
+        "errors": 0,
+        "connected": true,
+        "isBot": true
+      },
+      {
+        "id": "p7",
+        "name": "Santiago",
+        "saved": 0,
+        "errors": 0,
+        "connected": false,
+        "isBot": false
+      }
+    ],
+    "game": {
+      "holderId": "p5",
+      "amount": 100.11,
+      "turn": 9,
+      "msLeft": 6400,
+      "moved": 3599.52,
+      "passes": 8,
+      "lastEvent": {
+        "ok": true,
+        "text": "Ximena se quedó $33.37 y le pasó $100.11 a Regina"
+      },
+      "ledgerTail": [
+        {
+          "n": 1,
+          "playerId": "p1",
+          "name": "Ximena",
+          "income": 1000,
+          "consumption": 750,
+          "saving": 250,
+          "ok": true,
+          "reason": "ok"
+        },
+        {
+          "n": 2,
+          "playerId": "p2",
+          "name": "Diego",
+          "income": 750,
+          "consumption": 562.5,
+          "saving": 187.5,
+          "ok": true,
+          "reason": "ok"
+        },
+        {
+          "n": 3,
+          "playerId": "p3",
+          "name": "Fernanda",
+          "income": 562.5,
+          "consumption": 421.87,
+          "saving": 140.63,
+          "ok": false,
+          "reason": "wrong"
+        },
+        {
+          "n": 4,
+          "playerId": "p4",
+          "name": "Emiliano",
+          "income": 421.87,
+          "consumption": 316.4,
+          "saving": 105.47,
+          "ok": true,
+          "reason": "ok"
+        },
+        {
+          "n": 5,
+          "playerId": "p5",
+          "name": "Regina",
+          "income": 316.4,
+          "consumption": 237.3,
+          "saving": 79.1,
+          "ok": true,
+          "reason": "ok"
+        },
+        {
+          "n": 6,
+          "playerId": "p6",
+          "name": "Bot Tendera",
+          "income": 237.3,
+          "consumption": 177.97,
+          "saving": 59.33,
+          "ok": true,
+          "reason": "ok"
+        },
+        {
+          "n": 7,
+          "playerId": "p2",
+          "name": "Diego",
+          "income": 177.97,
+          "consumption": 133.48,
+          "saving": 44.49,
+          "ok": false,
+          "reason": "timeout"
+        },
+        {
+          "n": 8,
+          "playerId": "p1",
+          "name": "Ximena",
+          "income": 133.48,
+          "consumption": 100.11,
+          "saving": 33.37,
+          "ok": true,
+          "reason": "ok"
+        }
+      ]
+    }
+  }
+}
