@@ -10,3 +10,4 @@
 
 ## History
 - 1792393273 | CLAIMED | joahan-1 | claim; next: connect the host client and create the room
+- 1792393288 | CLAIMED | joahan-1 | heartbeat; lease until 1792395988
