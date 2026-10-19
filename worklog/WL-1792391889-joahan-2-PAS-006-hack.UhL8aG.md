@@ -11,3 +11,4 @@
 ## History
 - 1792391889 | CLAIMED | joahan-2 | claim; next: write planMove with a seeded rng test
 - 1792391919 | REVIEW | joahan-2 | done; PR https://github.com/JoahanMorales/juego-economia/compare/main...feat/pas-006?expand=1; evidence: node --test test/bots.test.js 4/4, npm test exit 0, sha b8b8ef0; reviewer: -
+- 1792391988 | REVIEW | joahan-1 | review; reject; SHA b8b8ef0837c2aa8684e57723ea9fcf2139c756f3; reviewer joahan-1
