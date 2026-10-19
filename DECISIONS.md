@@ -8,3 +8,4 @@ Why: a reversible option after 15 min keeps work moving.
 - 1792391010 | PAS-007 | ctx.rooms/ctx.broadcast compartidos; rate limit global por socket | Why: PAS-008 reutiliza las salas
 - 1792391628 | deadline decision/PAS-003-1792390594/1792391494 | BLOCKED_OTHER_TASK | Option: Direction 4: Marcador (1) + Cadena (3) on the projector; phone = direction 1; Why: Human's pick (JoahanMorales, 2026-10-19 00:1x): 1 is perfect, merged with the chain of 3; no money, accounts, publishing or scope expansion.
 - 1792392325 | PAS-010 | mock mode trusts stored playerId | Why: mock ack is canned
+- 1792392794 | plan | JoahanMorales/JoahanMorales | tasks added: PAS-018 | Why: backlog without PR (Plan-Channel: claims)

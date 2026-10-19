@@ -13,3 +13,20 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Reconexión con token secreto (player:join devuelve playerId y secret; reconecta sólo con secret; el estado público nunca lo incluye)
 - **Verify:** `node --test test/rooms.test.js test/validate.test.js`
+## PAS-018 · Reconexión con token secreto (nadie puede suplantar a otro jugador)
+
+- **Type:** bug
+- **Priority:** P1
+- **Estimate:** 40 min
+- **Rubric / Spec:** C6 · IDEA §4.2, §4.7 (review of PAS-005: the public player id was enough to take over a player)
+- **Depends on:** PAS-005, PAS-007, PAS-010
+- **Paths:** src/rooms.js, src/socket-lobby.js, public/js/play.js, test/rooms.test.js, test/socket-lobby.test.js, e2e/play.spec.js
+- **Freeze-Allowed:** yes
+- **Acceptance:**
+  - Each player gets a random `secret` (crypto.randomUUID) at join; `player:join` acks `{ playerId, secret }`.
+  - Reconnecting requires `{ playerId, secret }` that match; a known playerId with a missing or wrong secret is treated as a new player (a new id), never as the old one.
+  - The secret never appears in room:state (publicState only maps public fields) nor in any broadcast.
+  - play.js stores the secret in localStorage with the playerId and sends both on reload; the mock path keeps working.
+  - Tests: impersonation with the public id fails; the real owner reconnects and keeps saved/errors.
+- **Verify:** `node --test test/rooms.test.js test/socket-lobby.test.js`
+- **Next step:** add `secret` to the player object in rooms.join with a failing impersonation test.
