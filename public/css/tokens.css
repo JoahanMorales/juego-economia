@@ -1,0 +1,53 @@
+/* Pásala design tokens. The ONLY file with color literals (test/design-tokens.test.js enforces it).
+   Direction 4 "Marcador + Cadena", locked 2026-10-19. Rules: docs/DESIGN.md. */
+:root {
+  /* Color · IDEA §3.3 palette plus the neutrals it needs */
+  --bg: #170C12;          /* page background, guinda night */
+  --surface: #26131D;     /* panels, lower third, inputs on dark */
+  --surface-2: #331A28;   /* raised surface, hover */
+  --line: #4A2A3D;        /* hairlines, ring track, chain line */
+  --text: #F6ECE3;        /* primary text, off-white */
+  --text-muted: #C2AAB6;  /* labels, secondary numbers (8:1 on --bg) */
+  --gold: #EDC24F;        /* money and every amount */
+  --hot: #FF6A3D;         /* the active turn: holder, ring, phone background */
+  --ok: #5CC57A;          /* correct saving */
+  --err: #EF5B5B;         /* wrong or late saving */
+  --on-hot: #170C12;      /* text and controls on --hot */
+
+  /* Type */
+  --font-display: 'Bricolage Grotesque', 'Atkinson Hyperlegible', sans-serif;
+  --font-text: 'Atkinson Hyperlegible', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Projector scale (1280×720, legible at 5 m) */
+  --fs-holder: 132px;
+  --fs-amount: 92px;
+  --fs-total: 60px;
+  --fs-event: 23px;
+  --fs-label: 20px;
+  --fs-row: 19px;
+  /* Phone scale (390×844) */
+  --fs-phone-amount: 64px;
+  --fs-phone-title: 30px;
+  --fs-phone-input: 32px;
+  --fs-phone-button: 18px;
+
+  /* Shape: containers are sharp; only data marks (chain nodes, the ring) are round */
+  --radius: 2px;
+  --hairline: 1px solid var(--line);
+  --tap: 56px;            /* minimum touch target on the phone (IDEA asks 48) */
+
+  /* Space */
+  --gutter: 40px;
+  --gutter-phone: 20px;
+
+  /* Motion */
+  --dur-fast: 160ms;
+  --dur: 320ms;
+  --dur-pulse: 1200ms;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layers */
+  --z-flyer: 10;          /* the flying bill (PAS-014) */
+  --z-toast: 20;
+}

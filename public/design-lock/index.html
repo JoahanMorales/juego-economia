@@ -3,43 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pásala · Design lock</title>
+<title>Pásala · Diseño fijado</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400..800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tokens-draft.css">
 <style>
   body { padding: 32px 40px 60px; max-width: 1560px; margin: 0 auto; }
   h1 { font: 800 40px/1 var(--font-display); letter-spacing: -0.02em; margin: 0 0 8px; }
-  .intro { color: var(--text-muted); font-size: 18px; margin: 0 0 36px; max-width: 70ch; }
-  section { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 24px; align-items: start; padding: 28px 0; border-top: 1px solid var(--line); }
-  h2 { grid-column: 1 / -1; font: 800 30px/1 var(--font-display); margin: 0; }
-  h2 span { color: var(--gold); font-family: var(--font-mono); margin-right: 12px; }
-  .why { grid-column: 1 / -1; margin: 0; color: var(--text-muted); font-size: 18px; max-width: 80ch; }
-  img { width: 100%; height: auto; display: block; border-radius: 6px; }
+  .intro { color: var(--text-muted); font-size: 18px; margin: 0 0 28px; max-width: 75ch; }
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 24px; align-items: start; }
+  img { width: 100%; height: auto; display: block; border-radius: 2px; }
+  .links { display: flex; gap: 20px; font-size: 16px; margin-top: 18px; }
   a { color: var(--gold); }
-  .links { grid-column: 1 / -1; display: flex; gap: 20px; font-size: 16px; }
 </style>
 </head>
 <body>
-  <h1>Pásala · elige una dirección</h1>
-  <p class="intro">Las tres usan tu paleta y tus fuentes de IDEA §3.3 con los mismos datos de ejemplo (PMC 0.75, $1,000, pase 9). Cambian la composición, la forma y el movimiento. Proyector a 1280×720, celular a 390×844.</p>
-  <section>
-    <h2><span>1</span>Marcador</h2>
-    <p class="why">Marcador de transmisión deportiva. Esquinas rectas, líneas finas, una barra inferior con el último evento. El nombre de quien tiene el dinero domina la pantalla.</p>
-    <img src="shots/1-host.png" alt="Dirección 1 en el proyector"><img src="shots/1-play.png" alt="Dirección 1 en el celular">
-    <p class="links"><a href="1-host.html">Abrir proyector</a><a href="1-play.html">Abrir celular</a></p>
-  </section>
-  <section>
-    <h2><span>2</span>Billete</h2>
-    <p class="why">El dinero es un billete grabado. La cadena es una pila de billetes que se encogen pase a pase. Esquinas suaves de 14 px.</p>
-    <img src="shots/2-host.png" alt="Dirección 2 en el proyector"><img src="shots/2-play.png" alt="Dirección 2 en el celular">
-    <p class="links"><a href="2-host.html">Abrir proyector</a><a href="2-play.html">Abrir celular</a></p>
-  </section>
-  <section>
-    <h2><span>3</span>Cadena</h2>
-    <p class="why">La cadena es la protagonista: cada pase es un círculo del tamaño de su ingreso, así se ve cómo se apaga la serie. Quien tiene el dinero es el último nodo y late. Formas de píldora.</p>
-    <img src="shots/3-host.png" alt="Dirección 3 en el proyector"><img src="shots/3-play.png" alt="Dirección 3 en el celular">
-    <p class="links"><a href="3-host.html">Abrir proyector</a><a href="3-play.html">Abrir celular</a></p>
-  </section>
+  <h1>Pásala · Marcador + Cadena</h1>
+  <p class="intro">Diseño fijado el 19 de octubre. El proyector es el marcador con la cadena abajo; el celular es el Marcador. Estas pantallas usan datos de ejemplo y son la referencia de docs/DESIGN.md.</p>
+  <div class="grid"><img src="shots/host.png" alt="Proyector en juego"><img src="shots/play.png" alt="Celular en tu turno"></div>
+  <p class="links"><a href="host.html">Proyector en vivo</a><a href="play.html">Celular en vivo</a><a href="../index.html">Portada del juego</a></p>
 </body>
 </html>
