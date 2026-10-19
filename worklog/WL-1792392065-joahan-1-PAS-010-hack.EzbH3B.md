@@ -10,3 +10,4 @@
 
 ## History
 - 1792392065 | CLAIMED | joahan-1 | claim; next: build the tu turno screen against ?mock=myturn
+- 1792392078 | CLAIMED | joahan-1 | heartbeat; lease until 1792394778
