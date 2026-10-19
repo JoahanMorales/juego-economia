@@ -59,3 +59,6 @@ body.on-hot .conn, body.on-hot .pause { color: var(--text); }
 .go { margin: 18px var(--gutter-phone) 0; height: 68px; border: 0; border-radius: var(--radius); background: var(--bg); color: var(--gold); font: 800 28px var(--font-display); letter-spacing: -0.01em; }
 .go:active { transform: translateY(1px); }
 .go:disabled { opacity: .6; }
+
+/* JetBrains Mono advances 0.6em per character: --len characters always fit the phone width */
+.big, .amount { font-size: min(var(--fs-phone-amount), calc((100vw - 2 * var(--gutter-phone)) / (var(--len, 8) * 0.6))); white-space: nowrap; }

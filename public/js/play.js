@@ -108,7 +108,7 @@
     }
     var chosen = toId && playerById(toId);
     if (chosen && !chosen.connected) { toId = null; matesSig = ''; }
-    $('turn-amount').textContent = Format.money(turnInfo && turnInfo.turn === t ? turnInfo.amount : g.amount);
+    setAmount($('turn-amount'), Format.money(turnInfo && turnInfo.turn === t ? turnInfo.amount : g.amount));
     var pmc = turnInfo && turnInfo.pmc != null ? turnInfo.pmc : state.settings.pmc;
     $('turn-hint').textContent = 'PMC ' + Format.pmcLabel(pmc) + '. Te quedas con lo que no consumes.';
     renderMates();
@@ -138,6 +138,12 @@
     render();
   });
 
+  // Big amounts shrink with their length so $1,000,000.00 stays on one line (play.css reads --len).
+  function setAmount(node, text) {
+    node.textContent = text;
+    node.style.setProperty('--len', String(text.length));
+  }
+
   // ---- render by state ----
   function render() {
     $('pause').hidden = !(state && state.game && state.game.paused);
@@ -150,7 +156,7 @@
       var rank = (state.final && state.final.ranking) || [], pos = 0, mySaved = mine.saved, i;
       for (i = 0; i < rank.length; i++) if (rank[i].id === me.playerId) { pos = i + 1; mySaved = rank[i].saved; }
       $('final-place').textContent = pos ? '#' + pos : '';
-      $('final-saved').textContent = Format.money(mySaved);
+      setAmount($('final-saved'), Format.money(mySaved));
       var inv = state.settings.investment, pmc = state.settings.pmc;
       $('final-sentence').textContent = Format.money(inv) + ' de inversión movieron ' +
         Format.money(state.final ? state.final.moved : 0) + ' en la economía.';
@@ -160,7 +166,7 @@
     }
     if (state.phase !== 'playing' || !g) {
       $('wait-name').textContent = me.name;
-      $('wait-saved').textContent = saved;
+      setAmount($('wait-saved'), saved);
       wasMine = false;
       return show('wait');
     }
@@ -173,18 +179,18 @@
         }
         return renderTurn();
       }
-      $('passed-saved').textContent = saved;   // I passed, the server has not moved on yet
+      setAmount($('passed-saved'), saved);   // I passed, the server has not moved on yet
       return show('passed');
     }
     wasMine = false;
     var last = g.ledgerTail && g.ledgerTail[g.ledgerTail.length - 1];
     if (last && last.playerId === me.playerId) {
-      $('passed-saved').textContent = saved;
+      setAmount($('passed-saved'), saved);
       return show('passed');
     }
     var holder = playerById(g.holderId);
     $('other-name').textContent = holder ? label(holder) : '';
-    $('other-amount').textContent = Format.money(g.amount);
+    setAmount($('other-amount'), Format.money(g.amount));
     $('other-saved').textContent = saved;
     show('other');
   }
