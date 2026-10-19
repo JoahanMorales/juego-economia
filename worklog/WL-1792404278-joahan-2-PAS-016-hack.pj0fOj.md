@@ -11,3 +11,4 @@
 ## History
 - 1792404278 | CLAIMED | joahan-2 | claim; next: clean-clone rehearsal + docs/demo.md
 - 1792404791 | REVIEW | joahan-2 | done; PR https://github.com/JoahanMorales/juego-economia/compare/main...feat/pas-016?expand=1; evidence: test -s docs/demo.md; node test/load-test.js --local --players 30 --games 3: avg 12.8 ms, 0 disconnects, RESULTADO OK; clean clone npm test 65/65; sha 2474008; reviewer: -
+- 1792404872 | REVIEW | joahan-1 | review; approve; SHA 24740086e8a5046921a7e8a58a33b652dccc4973; reviewer joahan-1
