@@ -70,3 +70,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Montos de millones caben en una línea en el celular
 - **Verify:** `npx playwright test e2e/play.spec.js --project=phone`
+
+## PAS-022 · Etiqueta 'se movió' de la gráfica final no se corta con millones (follow-up of PAS-014)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** PAS-014
+- **Follow-up of:** PAS-014
+- **Paths:** public/host.html, public/js/host.js, public/css/host.css, public/js/sfx.js, e2e/host.spec.js
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Etiqueta 'se movió' de la gráfica final no se corta con millones
+- **Verify:** `npx playwright test e2e/host.spec.js --project=projector`
