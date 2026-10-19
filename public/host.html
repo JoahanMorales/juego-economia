@@ -17,6 +17,7 @@
       <span>Sala<b id="m-code">····</b></span>
       <span>PMC<b id="m-pmc">-</b></span>
       <span class="only-game">Pase<b id="m-turn">-</b></span>
+      <button type="button" class="ghost sound" id="sound" aria-pressed="false">Sonido</button>
       <button type="button" class="ghost only-game" id="end">Terminar ahora</button>
     </div>
   </header>
@@ -97,6 +98,10 @@
       </div>
     </section>
     <section class="ledger" aria-label="La cadena completa">
+      <figure class="chart" aria-labelledby="chart-cap">
+        <figcaption id="chart-cap"><span class="label">Lo que se movió, pase por pase</span><span class="legend"><i class="lg-bar"></i>ingreso del pase <i class="lg-line"></i>acumulado <i class="lg-theory"></i>teoría</span></figcaption>
+        <svg id="chart" viewBox="0 0 560 170" preserveAspectRatio="none" role="img" aria-label="Ingreso de cada pase y total acumulado contra la teoría"></svg>
+      </figure>
       <table>
         <thead><tr><th scope="col">#</th><th scope="col">Quién</th><th scope="col" class="num">Ingreso</th><th scope="col" class="num">Ahorro</th><th scope="col" class="num">Pasa</th></tr></thead>
         <tbody id="ledger"></tbody>
@@ -106,6 +111,7 @@
   </main>
 
   <p class="toast" id="toast" role="status" hidden></p>
+  <div class="flyer mono" id="flyer" aria-hidden="true" hidden></div>
 
   <template id="tpl-chip"><li class="chip"><span class="nm"></span><button type="button" class="kick" aria-label="Sacar">×</button></li></template>
   <template id="tpl-rank"><li><span class="pos"></span><span class="nm"></span><span class="sv mono"></span></li></template>
@@ -117,6 +123,7 @@
   <script src="js/protocol.js"></script>
   <script src="js/format.js"></script>
   <script src="js/mock-socket.js"></script>
+  <script src="js/sfx.js"></script>
   <script src="js/host.js"></script>
 </body>
 </html>
