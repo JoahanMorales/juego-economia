@@ -14,6 +14,11 @@ function botName(n) {
   return NAMES[n % NAMES.length] + (round ? ' ' + (round + 1) : '');
 }
 
+// The player fields a new bot starts with; rooms.join({ name, isBot: true }) adds id and counters.
+function makeBot(n) {
+  return { name: botName(n), isBot: true };
+}
+
 // A bot's turn: when it answers, what it answers and to whom it passes.
 // A wrong answer is always off by more than the tolerance, so the server counts it as an error.
 function planMove(rng, { income, pmc, holderId, players, tolerance = 0.5 }) {
@@ -29,4 +34,4 @@ function planMove(rng, { income, pmc, holderId, players, tolerance = 0.5 }) {
   return { delayMs, saving, toId: to ? to.id : null };
 }
 
-module.exports = { NAMES, ACCURACY, botName, planMove };
+module.exports = { NAMES, ACCURACY, botName, makeBot, planMove };

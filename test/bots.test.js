@@ -1,7 +1,7 @@
 'use strict';
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { NAMES, botName, planMove } = require('../src/bots');
+const { NAMES, botName, makeBot, planMove } = require('../src/bots');
 
 function seeded(seed) { // mulberry32
   return () => {
@@ -20,6 +20,11 @@ test('nombres temáticos de IDEA §4.8; después del 5º se numeran y caben en 1
   assert.equal(botName(5), 'Bot Panadero 2');
   assert.equal(botName(9), 'Bot Carpintera 2');
   for (let i = 0; i < 40; i++) assert.ok(botName(i).length <= 16, botName(i));
+});
+
+test('makeBot crea un jugador marcado como bot', () => {
+  assert.deepEqual(makeBot(0), { name: 'Bot Panadero', isBot: true });
+  assert.deepEqual(makeBot(7), { name: 'Bot Tendera 2', isBot: true });
 });
 
 test('responde entre 1.5 y 4.5 s y nunca se pasa a sí mismo ni a un desconectado', () => {
