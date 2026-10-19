@@ -128,6 +128,7 @@
     if (document.activeElement !== pmc) pmc.value = pmcText(s.settings.pmc);
     var k = 1 / (1 - s.settings.pmc);
     $('k-preview').replaceChildren(document.createTextNode('k = ' + Format.round2(k) + ', la teoría da'), mono(money(s.settings.investment * k)));
+    $('noreturn').setAttribute('aria-pressed', String(!!s.settings.noReturn));
     Array.prototype.forEach.call($('presets').children, function (b) {
       var pr = Protocol.PRESETS[b.dataset.i];
       b.setAttribute('aria-pressed', String(pr.investment === s.settings.investment && Math.abs(pr.pmc - s.settings.pmc) < 0.001));
@@ -340,6 +341,10 @@
     this.setAttribute('aria-pressed', String(on));
     this.textContent = on ? 'Sonido sí' : 'Sonido';
     if (window.Sfx) { Sfx.set(on); if (on) Sfx.pass(); }
+  });
+  $('noreturn').addEventListener('click', function () {
+    if (!state) return;
+    socket.emit(E.HOST_SETTINGS, { investment: state.settings.investment, pmc: state.settings.pmc, noReturn: !state.settings.noReturn });
   });
   $('bots').addEventListener('click', function () { socket.emit(E.HOST_ADD_BOTS, { count: 5 }); });
   $('start').addEventListener('click', function () { socket.emit(E.HOST_START, {}); });

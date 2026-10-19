@@ -39,7 +39,10 @@ function validateSettings(s) {
   if (typeof pmc !== 'number' || !Number.isFinite(pmc) || pmc < LIMITS.pmcMin || pmc > LIMITS.pmcMax) {
     return fail('La propensión a consumir debe estar entre 0.10 y 0.95.');
   }
-  return { ok: true, value: { investment, pmc } };
+  if (s.noReturn !== undefined && typeof s.noReturn !== 'boolean') return fail('Opción inválida.');
+  const value = { investment, pmc };
+  if (typeof s.noReturn === 'boolean') value.noReturn = s.noReturn;
+  return { ok: true, value };
 }
 
 function validateSaving(v) {

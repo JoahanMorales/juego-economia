@@ -78,7 +78,11 @@
 
   function renderMates() {
     var ps = ((state && state.players) || []).filter(function (p) { return p.id !== me.playerId; });
-    var sig = ps.map(function (p) { return p.id + '|' + p.name + '|' + p.connected + '|' + p.isBot; }).join(';') + '#' + toId;
+    // "No regreses la papa": the one who passed to you is off limits, unless only the two of you are left.
+    var g = state && state.game, live = ps.filter(function (p) { return p.connected; }).length;
+    var banned = state && state.settings.noReturn && g && g.prevId && live > 1 ? g.prevId : null;
+    if (banned === toId) toId = null;
+    var sig = ps.map(function (p) { return p.id + '|' + p.name + '|' + p.connected + '|' + p.isBot; }).join(';') + '#' + toId + '#' + banned;
     if (sig === matesSig) return;
     matesSig = sig;
     var box = $('mates');
@@ -87,7 +91,8 @@
       var b = document.createElement('button');
       b.type = 'button';
       b.textContent = label(p);
-      b.disabled = !p.connected;
+      b.disabled = !p.connected || p.id === banned;
+      if (p.id === banned) b.title = 'Te lo acaba de pasar: no se lo regreses';
       b.setAttribute('aria-pressed', String(p.id === toId));
       b.addEventListener('click', function () { toId = p.id; matesSig = ''; renderMates(); });
       box.appendChild(b);
