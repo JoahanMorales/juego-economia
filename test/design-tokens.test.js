@@ -1,5 +1,4 @@
 // Every color comes from public/css/tokens.css (docs/DESIGN.md · Never 6).
-// public/design-lock/ holds the frozen reference screens and is not product UI.
 const test = require('node:test');
 const assert = require('node:assert');
 const fs = require('node:fs');
@@ -13,7 +12,7 @@ const COLOR = /#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3,4})\b|\b(?:rgba?|
 function files(dir) {
   return fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
     const p = path.join(dir, e.name);
-    if (e.isDirectory()) return e.name === 'design-lock' ? [] : files(p);
+    if (e.isDirectory()) return files(p);
     return /\.(css|html|js)$/.test(e.name) ? [p] : [];
   });
 }
