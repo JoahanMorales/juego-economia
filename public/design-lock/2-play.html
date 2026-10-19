@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pásala · Dirección 2 · Billete · celular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens-draft.css">
+<style>
+  /* Direction 2 · Billete on the phone: the money you got is a bill in your hand. Soft 14px corners. */
+  :root { --radius: 14px; --radius-sm: 10px; }
+  body { grid-template-columns: minmax(0, 1fr); overflow-x: hidden; }
+  .field input { width: 100%; }
+  body { background: var(--hot); color: var(--on-hot); min-height: 100dvh; display: grid; grid-template-rows: auto auto auto 1fr auto; padding: 18px 18px 18px; gap: 14px; }
+  .turn { font: 800 30px/1 var(--font-display); letter-spacing: -0.02em; margin: 4px 2px 0; }
+  .bill { position: relative; border-radius: var(--radius); padding: 18px 18px 16px; color: var(--text);
+    background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--gold) 8%, transparent) 0 1px, transparent 1px 8px), var(--surface-2);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 34%, transparent); display: grid; grid-template-columns: 1fr auto; align-items: center; }
+  .bill::after { content: ''; position: absolute; inset: 8px; border-radius: calc(var(--radius) - 5px); border: 1px solid color-mix(in srgb, var(--gold) 22%, transparent); pointer-events: none; }
+  .bill p { margin: 0; font-size: 16px; color: var(--text-muted); }
+  .amount { font: 800 54px/1.05 var(--font-mono); color: var(--gold); letter-spacing: -0.04em; }
+  .seal { --size: 82px; width: var(--size); height: var(--size); border-radius: 50%; display: grid; place-items: center; position: relative; background: var(--bg); }
+  .seal::before { content: ''; position: absolute; inset: 4px; border-radius: 50%;
+    background: conic-gradient(var(--hot) calc(var(--progress) * 1turn), var(--line) 0);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 7px), black calc(100% - 6px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 7px), black calc(100% - 6px)); }
+  .seal b { font: 800 32px/1 var(--font-mono); color: var(--text); }
+  .ask { display: grid; gap: 8px; }
+  label { font: 700 19px var(--font-text); }
+  .field { display: flex; align-items: center; background: var(--bg); border-radius: var(--radius-sm); height: 64px; padding: 0 16px; }
+  .field span { font: 700 28px var(--font-mono); color: var(--text-muted); margin-right: 6px; }
+  .field input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--gold); font: 700 30px var(--font-mono); outline: none; }
+  .field:focus-within { box-shadow: 0 0 0 3px var(--on-hot); }
+  .hint { margin: 0; font-size: 16px; opacity: .8; }
+  .to { display: grid; gap: 8px; align-content: start; }
+  .mates { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .mates button { height: 56px; border: 0; background: color-mix(in srgb, var(--on-hot) 14%, transparent); color: var(--on-hot); border-radius: var(--radius-sm); font: 700 18px var(--font-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 10px; }
+  .mates button[aria-pressed="true"] { background: var(--bg); color: var(--text); }
+  .mates button:disabled { opacity: .4; }
+  .go { height: 68px; border: 0; border-radius: var(--radius); background: var(--bg); color: var(--gold); font: 800 28px var(--font-display); }
+  .go:active { transform: scale(0.98); }
+</style>
+</head>
+<body>
+  <h1 class="turn">¡Te llegó dinero!</h1>
+  <div class="bill">
+    <div><p>Tu ingreso</p><div class="amount" data-demo="amount"></div></div>
+    <div class="seal" role="timer" aria-label="Segundos restantes"><b data-demo="seconds"></b></div>
+  </div>
+  <div class="ask">
+    <label for="saving">¿Cuánto te ahorras?</label>
+    <div class="field"><span>$</span><input id="saving" inputmode="decimal" autocomplete="off" value="25.03"></div>
+    <p class="hint">PMC <b data-demo="pmc"></b>. Te quedas con lo que no consumes.</p>
+  </div>
+  <div class="to"><label>Pásale el resto a</label><div class="mates" data-list="mates"></div></div>
+  <button class="go" type="button">¡Pásala!</button>
+  <template id="mate"><button type="button"><span data-f="name"></span></button></template>
+  <script src="demo.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', function () { var b = document.querySelector('.mates button'); if (b) b.setAttribute('aria-pressed', 'true'); });</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+/* Draft tokens shared by the 3 design-lock directions (IDEA §3.3). The winner becomes public/css/tokens.css. */
+:root {
+  --bg: #170C12;
+  --surface: #26131D;
+  --surface-2: #331A28;
+  --line: #4A2A3D;
+  --text: #F6ECE3;
+  --text-muted: #C2AAB6;
+  --gold: #EDC24F;
+  --hot: #FF6A3D;
+  --ok: #5CC57A;
+  --err: #EF5B5B;
+  --on-hot: #170C12;
+
+  --font-display: 'Bricolage Grotesque', 'Atkinson Hyperlegible', sans-serif;
+  --font-text: 'Atkinson Hyperlegible', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --dur-fast: 160ms;
+  --dur: 320ms;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-text); }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.demo-label { position: fixed; right: 12px; bottom: 8px; font: 12px var(--font-mono); color: var(--text-muted); opacity: .7; }

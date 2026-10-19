@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pásala · Dirección 2 · Billete</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens-draft.css">
+<style>
+  /* Direction 2 · Billete: the money is a banknote and the chain is a stack of bills that shrink pass by pass. Soft 14px corners. */
+  :root { --radius: 14px; --radius-sm: 8px; }
+  body { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr; padding: 26px 44px 30px; gap: 22px; }
+  header { display: flex; align-items: center; justify-content: space-between; }
+  .brand { font: 800 28px/1 var(--font-display); letter-spacing: -0.02em; color: var(--gold); }
+  .pills { display: flex; gap: 10px; }
+  .pill { padding: 8px 16px; border-radius: 999px; background: var(--surface); font-size: 18px; color: var(--text-muted); }
+  .pill b { color: var(--text); font-family: var(--font-mono); margin-left: 6px; }
+
+  main { display: grid; grid-template-columns: 1.12fr 1fr; gap: 48px; min-height: 0; }
+  .left { display: grid; grid-template-rows: auto auto 1fr; gap: 20px; min-width: 0; }
+
+  .bill { position: relative; border-radius: var(--radius); padding: 30px 34px 26px; background:
+      repeating-linear-gradient(135deg, color-mix(in srgb, var(--gold) 7%, transparent) 0 1px, transparent 1px 9px),
+      var(--surface-2);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 30%, transparent); overflow: hidden; }
+  .bill::after { content: ''; position: absolute; inset: 12px; border-radius: calc(var(--radius) - 6px);
+    border: 1px solid color-mix(in srgb, var(--gold) 22%, transparent); pointer-events: none; }
+  .bill-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .serial { font: 500 15px var(--font-mono); color: var(--text-muted); letter-spacing: 0.08em; }
+  .amount { font: 800 104px/1 var(--font-mono); color: var(--gold); letter-spacing: -0.045em; margin: 6px 0 18px; }
+  .who { font-size: 20px; color: var(--text-muted); margin: 0; }
+  .holder { font: 800 70px/1 var(--font-display); letter-spacing: -0.03em; color: var(--hot); margin: 4px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .seal { --size: 104px; width: var(--size); height: var(--size); border-radius: 50%; display: grid; place-items: center; position: relative; background: var(--bg); }
+  .seal::before { content: ''; position: absolute; inset: 5px; border-radius: 50%;
+    background: conic-gradient(var(--hot) calc(var(--progress) * 1turn), var(--line) 0);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 9px), black calc(100% - 8px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 9px), black calc(100% - 8px)); }
+  .seal b { font: 800 40px/1 var(--font-mono); }
+
+  .event { display: flex; gap: 14px; align-items: baseline; margin: 0; font-size: 23px; line-height: 1.3; }
+  .event::before { content: '✓'; color: var(--ok); font-weight: 700; }
+  .event[data-ok="false"]::before { content: '✕'; color: var(--err); }
+
+  .rank { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; align-self: end; }
+  .left { grid-template-rows: auto auto 1fr; }
+  .amount { font-size: 116px; }
+  .rank li { background: var(--surface); border-radius: var(--radius-sm); padding: 10px 12px; min-width: 0; }
+  .rank .pos { font: 700 14px var(--font-mono); color: var(--text-muted); }
+  .rank li:first-child .pos { color: var(--gold); }
+  .rank .nm { display: block; font-size: 17px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+  .rank .sv { display: block; font: 700 19px var(--font-mono); color: var(--gold); }
+
+  .right { display: grid; grid-template-rows: auto 1fr; gap: 22px; min-height: 0; }
+  .label { font-size: 19px; color: var(--text-muted); margin: 0 0 4px; }
+  .moved { font: 800 58px/1 var(--font-mono); color: var(--text); letter-spacing: -0.03em; }
+  .theory { font-size: 19px; color: var(--text-muted); margin: 8px 0 0; }
+  .theory b { font-family: var(--font-mono); color: var(--gold); }
+  .stack { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; align-content: start; }
+  .stack li { position: relative; height: 36px; }
+  .stack .bar { position: absolute; inset: 0 auto 0 0; width: calc(max(var(--share), 0.47) * (100% - 112px)); border-radius: var(--radius-sm);
+    background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--gold) 9%, transparent) 0 1px, transparent 1px 7px), var(--surface-2);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 26%, transparent); }
+  .stack li[data-ok="false"] .bar { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--err) 70%, transparent); }
+  .stack .txt { position: relative; display: flex; gap: 12px; align-items: center; height: 100%; padding: 0 12px; font-size: 17px; width: calc(max(var(--share), 0.47) * (100% - 112px)); justify-content: space-between; white-space: nowrap; }
+  .stack .in { font: 700 17px var(--font-mono); color: var(--gold); }
+  .stack .sv { position: absolute; right: 0; top: 50%; transform: translateY(-50%); font: 500 15px var(--font-mono); color: var(--text-muted); }
+  .stack li[data-ok="false"] .sv { color: var(--err); text-decoration: line-through; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .bill { animation: lift 1.4s var(--ease) infinite; }
+    @keyframes lift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">Pásala</div>
+    <div class="pills"><span class="pill">Sala<b>KFTR</b></span><span class="pill">PMC<b data-demo="pmc"></b></span><span class="pill">Pase<b data-demo="turn"></b></span></div>
+  </header>
+  <main>
+    <section class="left">
+      <div class="bill">
+        <div class="bill-top">
+          <span class="serial">INVERSIÓN $1,000 · PMC 0.75</span>
+          <div class="seal" role="timer" aria-label="Segundos restantes"><b data-demo="seconds"></b></div>
+        </div>
+        <div class="amount" data-demo="amount"></div>
+        <p class="who">En manos de</p>
+        <h1 class="holder" data-demo="holder"></h1>
+      </div>
+      <p class="event" data-demo-event-state><span data-demo="event"></span></p>
+      <ol class="rank" data-list="ranking"></ol>
+    </section>
+    <section class="right">
+      <div>
+        <p class="label">Dinero que se ha movido</p>
+        <div class="moved" data-demo="moved"></div>
+        <p class="theory">Teoría: k × inversión = <b data-demo="theory"></b></p>
+      </div>
+      <ol class="stack" data-list="chain"></ol>
+    </section>
+  </main>
+  <template id="chain-row"><li><span class="bar"></span><span class="txt"><span data-f="name"></span><span class="in" data-f="income"></span></span><span class="sv" data-f="saving"></span></li></template>
+  <template id="rank-row"><li><span class="pos" data-f="pos"></span><span class="nm" data-f="name"></span><span class="sv" data-f="saved"></span></li></template>
+  <div class="demo-label">Datos de ejemplo</div>
+  <script src="demo.js"></script>
+</body>
+</html>

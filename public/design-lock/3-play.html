@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pásala · Dirección 3 · Cadena · celular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens-draft.css">
+<style>
+  /* Direction 3 · Cadena on the phone: you are the live node. A big ring holds the amount; pills choose the next node. */
+  :root { --radius: 999px; }
+  body { grid-template-columns: minmax(0, 1fr); overflow-x: hidden; }
+  .field input { width: 100%; }
+  body { background: var(--hot); color: var(--on-hot); min-height: 100dvh; display: grid; grid-template-rows: auto auto auto 1fr auto; padding: 18px 18px 18px; gap: 14px; justify-items: stretch; }
+  .turn { font: 800 28px/1 var(--font-display); letter-spacing: -0.02em; margin: 2px 0 0; text-align: center; }
+  .ring { --size: 214px; justify-self: center; width: var(--size); height: var(--size); border-radius: 50%; display: grid; place-content: center; text-align: center; position: relative; background: var(--bg); color: var(--text); }
+  .ring::before { content: ''; position: absolute; inset: 6px; border-radius: 50%;
+    background: conic-gradient(var(--hot) calc(var(--progress) * 1turn), var(--surface-2) 0);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 12px), black calc(100% - 11px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 12px), black calc(100% - 11px)); }
+  .ring p { margin: 0; font-size: 15px; color: var(--text-muted); }
+  .amount { font: 800 40px/1.1 var(--font-mono); color: var(--gold); letter-spacing: -0.03em; }
+  .ring .secs { font: 700 18px var(--font-mono); }
+  .ask { display: grid; gap: 8px; }
+  label { font: 700 19px var(--font-text); }
+  .field { display: flex; align-items: center; background: var(--bg); border-radius: var(--radius); height: 62px; padding: 0 22px; }
+  .field span { font: 700 26px var(--font-mono); color: var(--text-muted); margin-right: 6px; }
+  .field input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--gold); font: 700 28px var(--font-mono); outline: none; }
+  .field:focus-within { box-shadow: 0 0 0 3px var(--on-hot); }
+  .hint { margin: 0; font-size: 15px; opacity: .8; padding-left: 6px; }
+  .to { display: grid; gap: 8px; align-content: start; }
+  .mates { display: flex; flex-wrap: wrap; gap: 8px; }
+  .mates button { height: 52px; border: 2px solid var(--on-hot); background: transparent; color: var(--on-hot); border-radius: var(--radius); font: 700 18px var(--font-text); padding: 0 18px; }
+  .mates button[aria-pressed="true"] { background: var(--on-hot); color: var(--hot); }
+  .mates button:disabled { opacity: .35; }
+  .go { height: 66px; border: 0; border-radius: var(--radius); background: var(--bg); color: var(--gold); font: 800 28px var(--font-display); }
+  .go:active { transform: scale(0.98); }
+  @media (prefers-reduced-motion: no-preference) {
+    .ring { animation: beat 1s var(--ease) infinite; }
+    @keyframes beat { 0%, 100% { transform: scale(1); } 40% { transform: scale(1.03); } }
+  }
+</style>
+</head>
+<body>
+  <h1 class="turn">Te toca a ti</h1>
+  <div class="ring" role="timer" aria-label="Segundos restantes">
+    <p>Te llegó</p><div class="amount" data-demo="amount"></div><div class="secs"><span data-demo="seconds"></span> s</div>
+  </div>
+  <div class="ask">
+    <label for="saving">¿Cuánto te ahorras?</label>
+    <div class="field"><span>$</span><input id="saving" inputmode="decimal" autocomplete="off" value="25.03"></div>
+    <p class="hint">PMC <b data-demo="pmc"></b>. Te quedas con lo que no consumes.</p>
+  </div>
+  <div class="to"><label>Pásale el resto a</label><div class="mates" data-list="mates"></div></div>
+  <button class="go" type="button">¡Pásala!</button>
+  <template id="mate"><button type="button"><span data-f="name"></span></button></template>
+  <script src="demo.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', function () { var b = document.querySelector('.mates button'); if (b) b.setAttribute('aria-pressed', 'true'); });</script>
+</body>
+</html>

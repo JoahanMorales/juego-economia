@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pásala · Dirección 1 · Marcador · celular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens-draft.css">
+<style>
+  /* Direction 1 · Marcador on the phone: a shot clock across the top, sharp blocks, one dark action bar. */
+  :root { --radius: 2px; }
+  body { grid-template-columns: minmax(0, 1fr); overflow-x: hidden; }
+  .field input { width: 100%; }
+  body { background: var(--hot); color: var(--on-hot); min-height: 100dvh; display: grid; grid-template-rows: auto auto auto 1fr auto; padding: 0 0 18px; }
+  .clock { height: 10px; background: color-mix(in srgb, var(--on-hot) 22%, transparent); }
+  .clock i { display: block; height: 100%; width: calc(var(--progress) * 100%); background: var(--on-hot); }
+  .top { display: flex; justify-content: space-between; align-items: baseline; padding: 18px 20px 0; }
+  .turn { font: 800 30px/1 var(--font-display); letter-spacing: -0.02em; margin: 0; }
+  .secs { font: 800 44px/1 var(--font-mono); }
+  .secs small { font-size: 18px; margin-left: 2px; }
+  .got { padding: 14px 20px 18px; border-bottom: 2px solid var(--on-hot); }
+  .got p { margin: 0; font-size: 18px; opacity: .8; }
+  .amount { font: 800 64px/1.05 var(--font-mono); letter-spacing: -0.04em; }
+  form { display: grid; grid-template-rows: auto auto auto 1fr; padding: 18px 20px 0; gap: 8px; min-height: 0; }
+  label { font: 700 19px var(--font-text); }
+  .field { display: flex; align-items: center; background: var(--bg); color: var(--gold); border-radius: var(--radius); height: 66px; padding: 0 16px; }
+  .field span { font: 700 30px var(--font-mono); margin-right: 6px; }
+  .field input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--gold); font: 700 32px var(--font-mono); outline: none; }
+  .field:focus-within { box-shadow: 0 0 0 3px var(--on-hot); }
+  .hint { margin: 0 0 8px; font-size: 16px; opacity: .8; }
+  .mates { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-content: start; }
+  .mates button { height: 56px; border: 2px solid var(--on-hot); background: transparent; color: var(--on-hot); border-radius: var(--radius); font: 700 18px var(--font-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 10px; }
+  .mates button[aria-pressed="true"] { background: var(--on-hot); color: var(--hot); }
+  .mates button:disabled { opacity: .35; border-style: dashed; }
+  .go { margin: 18px 20px 0; height: 68px; border: 0; border-radius: var(--radius); background: var(--bg); color: var(--gold); font: 800 28px var(--font-display); letter-spacing: -0.01em; }
+  .go:active { transform: translateY(1px); }
+</style>
+</head>
+<body>
+  <div class="clock"><i></i></div>
+  <div class="top"><h1 class="turn">Tu turno</h1><div class="secs"><span data-demo="seconds"></span><small>s</small></div></div>
+  <div class="got"><p>Te llegó</p><div class="amount" data-demo="amount"></div></div>
+  <form onsubmit="return false">
+    <label for="saving">¿Cuánto te ahorras?</label>
+    <div class="field"><span>$</span><input id="saving" inputmode="decimal" autocomplete="off" value="25.03"></div>
+    <p class="hint">PMC <b data-demo="pmc"></b>. Te quedas con lo que no consumes.</p>
+    <div class="mates" data-list="mates"></div>
+  </form>
+  <button class="go" type="button">¡Pásala!</button>
+  <template id="mate"><button type="button"><span data-f="name"></span></button></template>
+  <script src="demo.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', function () { var b = document.querySelector('.mates button'); if (b) b.setAttribute('aria-pressed', 'true'); });</script>
+</body>
+</html>
