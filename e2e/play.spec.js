@@ -87,3 +87,27 @@ test('final: place, saving and the multiplier sentence', async ({ page }) => {
   await expect(page.locator('#final-formula')).toContainText('k = 1 / (1 - 0.75) = 4');
   await noOverflow(page);
 });
+
+// IDEA cases 1 and 2 use $1,000,000: the big amounts must stay on one line and inside the screen.
+for (const [mock, id, sel] of [['myturn', 'p5', '#turn-amount'], ['playing', 'p2', '#other-amount'], ['final', 'p3', '#final-saved'], ['lobby', 'p1', '#wait-saved']]) {
+  test(`million amounts fit one line: ${mock}`, async ({ page }) => {
+    await page.route('**/mock/*.json', async (route) => {
+      const json = await (await route.fetch()).json();
+      if (json.state.game) json.state.game.amount = 1000000;
+      json.state.players.forEach((p) => { p.saved = 999999.99; });
+      if (json.state.final) json.state.final.ranking.forEach((r) => { r.saved = 999999.99; });
+      await route.fulfill({ json });
+    });
+    await open(page, mock, id);
+    await expect(page.locator(sel)).toHaveText(/^\$[\d,]{7,9}\.\d{2}$/);
+    const box = await page.locator(sel).evaluate((n) => ({
+      lines: Math.round(n.getBoundingClientRect().height / (parseFloat(getComputedStyle(n).fontSize) * 1.05)),
+      fits: n.scrollWidth <= n.clientWidth,
+      px: parseFloat(getComputedStyle(n).fontSize),
+    }));
+    expect(box.lines).toBe(1);
+    expect(box.fits).toBe(true);
+    expect(box.px).toBeGreaterThanOrEqual(40);
+    await noOverflow(page);
+  });
+}
