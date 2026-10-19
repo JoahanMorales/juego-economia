@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pásala</title>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/play.css">
+</head>
+<body>
+  <p class="conn" id="conn" role="status" hidden>Reconectando…</p>
+  <p class="pause" id="pause" role="status" hidden>Juego en pausa. Faltan jugadores conectados.</p>
+
+  <!-- Entrar -->
+  <section class="screen" id="s-join" hidden>
+    <h1 class="mark">Pás<span>a</span>la</h1>
+    <form id="join-form" novalidate>
+      <label for="code">Código de la sala</label>
+      <input id="code" class="in mono" autocomplete="off" autocapitalize="characters" maxlength="4" spellcheck="false">
+      <label for="name">Tu nombre</label>
+      <input id="name" class="in" autocomplete="off" maxlength="16" spellcheck="false">
+      <p class="err" id="join-err" role="alert"></p>
+      <button class="btn" type="submit">Entrar</button>
+    </form>
+  </section>
+
+  <!-- Esperando -->
+  <section class="screen" id="s-wait" hidden>
+    <h1 class="mark">Pás<span>a</span>la</h1>
+    <div class="body">
+      <h2 class="title">¡Estás dentro!</h2>
+      <p class="sub" id="wait-name"></p>
+      <p class="label">Tu ahorro</p>
+      <p class="big money" id="wait-saved"></p>
+      <p class="sub">Esperando a que arranque el juego.</p>
+    </div>
+  </section>
+
+  <!-- Otro tiene el dinero -->
+  <section class="screen" id="s-other" hidden>
+    <h1 class="mark">Pás<span>a</span>la</h1>
+    <div class="body">
+      <p class="label">Tiene el dinero</p>
+      <h2 class="holder" id="other-name"></h2>
+      <p class="big money" id="other-amount"></p>
+      <p class="sub strong">Atento: te lo pueden pasar a ti</p>
+      <p class="label">Tu ahorro <span class="money mono" id="other-saved"></span></p>
+    </div>
+  </section>
+
+  <!-- Tu turno -->
+  <section class="screen turn" id="s-turn" hidden>
+    <div class="clock" id="clock" role="timer" aria-label="Tiempo restante"><i></i></div>
+    <div class="top"><h1 class="turn-title">Tu turno</h1><div class="secs"><span id="secs">10</span><small>s</small></div></div>
+    <div class="got"><p>Te llegó</p><div class="amount" id="turn-amount"></div></div>
+    <form id="turn-form" novalidate>
+      <label for="saving">¿Cuánto te ahorras?</label>
+      <div class="field"><span>$</span><input id="saving" inputmode="decimal" autocomplete="off" placeholder="0.00"></div>
+      <p class="hint" id="turn-hint"></p>
+      <p class="turn-err" id="turn-err" role="alert"></p>
+      <div class="mates" id="mates" role="group" aria-label="A quién se lo pasas"></div>
+    </form>
+    <button class="go" id="go" type="submit" form="turn-form">¡Pásala!</button>
+  </section>
+
+  <!-- Pasada -->
+  <section class="screen" id="s-passed" hidden>
+    <h1 class="mark">Pás<span>a</span>la</h1>
+    <div class="body">
+      <h2 class="title">¡Pasada!</h2>
+      <p class="sub">Mira el proyector.</p>
+      <p class="label">Tu ahorro</p>
+      <p class="big money" id="passed-saved"></p>
+    </div>
+  </section>
+
+  <!-- Final -->
+  <section class="screen" id="s-final" hidden>
+    <h1 class="mark">Pás<span>a</span>la</h1>
+    <div class="body">
+      <p class="label">Tu lugar</p>
+      <p class="place" id="final-place"></p>
+      <p class="label">Ahorraste</p>
+      <p class="big money" id="final-saved"></p>
+      <p class="rule"></p>
+      <p class="sub strong" id="final-sentence"></p>
+      <p class="sub" id="final-formula"></p>
+    </div>
+  </section>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/protocol.js"></script>
+  <script src="js/format.js"></script>
+  <script src="js/mock-socket.js"></script>
+  <script src="js/play.js"></script>
+</body>
+</html>
