@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pásala · Referencia · proyector</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=JetBrains+Mono:wght@400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="reference.css">
+<style>
+  /* Direction 4 · Marcador + Cadena: the scoreboard of direction 1, with the chain of direction 3 as the bottom band.
+     Shape rule: containers are sharp (2px); chain nodes are circles because their area is data (the income of a pass). */
+  :root { --radius: 2px; }
+  body { min-height: 100dvh; display: grid; grid-template-rows: auto 1fr auto; padding: 24px 40px 18px; gap: 18px; }
+  header { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+  .brand { font: 800 30px/1 var(--font-display); letter-spacing: -0.02em; }
+  .brand span { color: var(--hot); }
+  .meta { display: flex; gap: 36px; font-size: 20px; color: var(--text-muted); }
+  .meta b { color: var(--text); font-family: var(--font-mono); font-weight: 700; margin-left: 8px; }
+
+  main { display: grid; grid-template-columns: 1.5fr 1fr; gap: 44px; min-height: 0; }
+  .stage { display: grid; grid-template-rows: auto auto auto 1fr; min-width: 0; }
+  .label { font-size: 20px; color: var(--text-muted); margin: 0 0 6px; }
+  .holder { font: 800 132px/0.92 var(--font-display); letter-spacing: -0.035em; color: var(--hot); margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .money-row { display: flex; align-items: center; gap: 26px; margin-top: 18px; }
+  .amount { font: 800 92px/1 var(--font-mono); color: var(--gold); letter-spacing: -0.04em; }
+  .ring { --size: 108px; width: var(--size); height: var(--size); border-radius: 50%; display: grid; place-items: center; position: relative; flex: none; }
+  .ring::before { content: ''; position: absolute; inset: 0; border-radius: 50%;
+    background: conic-gradient(var(--hot) calc(var(--progress) * 1turn), var(--line) 0);
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 11px), black calc(100% - 10px));
+            mask: radial-gradient(farthest-side, transparent calc(100% - 11px), black calc(100% - 10px)); }
+  .ring b { font: 800 40px/1 var(--font-mono); }
+  .lower-third { align-self: end; display: grid; grid-template-columns: 8px 1fr; background: var(--surface); border-radius: var(--radius); }
+  .lower-third::before { content: ''; background: var(--ok); }
+  .lower-third[data-ok="false"]::before { background: var(--err); }
+  .lower-third p { margin: 0; padding: 14px 22px; font-size: 23px; line-height: 1.25; }
+
+  aside { display: grid; grid-template-rows: auto 1fr; gap: 18px; min-height: 0; border-left: 1px solid var(--line); padding-left: 32px; }
+  .moved { font: 800 60px/1 var(--font-mono); color: var(--gold); letter-spacing: -0.03em; }
+  .theory { margin: 10px 0 0; font-size: 19px; color: var(--text-muted); }
+  .theory b { color: var(--text); font-family: var(--font-mono); }
+  .meter { height: 4px; background: var(--line); margin-top: 12px; }
+  .meter i { display: block; height: 100%; width: calc(var(--moved-ratio) * 100%); background: var(--gold); }
+  .rank { list-style: none; margin: 0; padding: 0; display: grid; align-content: start; }
+  .rank li { display: grid; grid-template-columns: 34px 1fr auto; gap: 12px; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--line); }
+  .rank li:last-child { border-bottom: 0; }
+  .rank .pos { font: 800 24px/1 var(--font-display); color: var(--text-muted); }
+  .rank li:first-child .pos { color: var(--gold); }
+  .rank .nm { font-size: 19px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rank .sv { font: 700 20px var(--font-mono); color: var(--gold); }
+
+  .chain { border-top: 1px solid var(--line); padding-top: 12px; }
+  .track { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(9, 1fr); position: relative; height: 128px; }
+  .track::before { content: ''; position: absolute; left: 5.5%; right: 5.5%; top: 34px; height: 2px; background: var(--line); }
+  .track li { position: relative; display: grid; justify-items: center; }
+  .node { --d: calc(16px + var(--share) * 52px); position: absolute; top: calc(35px - var(--d) / 2); width: var(--d); height: var(--d); border-radius: 50%; background: var(--gold); }
+  .track li[data-ok="false"] .node { background: var(--bg); box-shadow: inset 0 0 0 3px var(--err); }
+  .track .nm, .track .in, .track .sv { position: absolute; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+  .track .nm { top: 74px; font-size: 16px; }
+  .track .in { top: 95px; font: 600 15px var(--font-mono); color: var(--text-muted); }
+  .track .sv { top: 114px; font: 500 13px var(--font-mono); color: var(--ok); }
+  .track li[data-ok="false"] .sv { color: var(--err); text-decoration: line-through; }
+  .track .now .node { --d: 34px; background: var(--hot); }
+  .track .now .nm { color: var(--hot); font-weight: 700; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .holder { animation: pulse 1.2s var(--ease) infinite; transform-origin: left center; }
+    .track .now .node { animation: beat 1.2s var(--ease) infinite; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 45% { transform: scale(1.025); } }
+    @keyframes beat { 0%, 100% { transform: scale(1); } 45% { transform: scale(1.2); } }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">Pás<span>a</span>la</div>
+    <div class="meta"><span>Sala<b>KFTR</b></span><span>PMC<b data-demo="pmc"></b></span><span>Pase<b data-demo="turn"></b></span></div>
+  </header>
+  <main>
+    <section class="stage">
+      <p class="label">Tiene el dinero</p>
+      <h1 class="holder" data-demo="holder"></h1>
+      <div class="money-row">
+        <div class="amount" data-demo="amount"></div>
+        <div class="ring" role="timer" aria-label="Segundos restantes"><b data-demo="seconds"></b></div>
+      </div>
+      <div class="lower-third" data-demo-event-state><p data-demo="event"></p></div>
+    </section>
+    <aside>
+      <div>
+        <p class="label">Dinero que se ha movido</p>
+        <div class="moved" data-demo="moved"></div>
+        <p class="theory">La teoría dice <b data-demo="theory"></b> (k = <span data-demo="k"></span>)</p>
+        <div class="meter"><i></i></div>
+      </div>
+      <div>
+        <p class="label">Ahorro</p>
+        <ol class="rank" data-list="ranking"></ol>
+      </div>
+    </aside>
+  </main>
+  <section class="chain" aria-label="La cadena del dinero">
+    <ol class="track" data-list="chain"></ol>
+  </section>
+  <template id="chain-row"><li><span class="node"></span><span class="nm" data-f="name"></span><span class="in" data-f="income"></span><span class="sv" data-f="saving"></span></li></template>
+  <template id="rank-row"><li><span class="pos" data-f="pos"></span><span class="nm" data-f="name"></span><span class="sv" data-f="saved"></span></li></template>
+  <div class="demo-label">Datos de ejemplo</div>
+  <script src="demo.js"></script>
+  <script>
+    // The holder is the live end of the chain.
+    document.addEventListener('DOMContentLoaded', function () {
+      var t = document.querySelector('[data-list="chain"]'), d = window.DEMO;
+      var li = document.createElement('li'); li.className = 'now';
+      var node = document.createElement('span'); node.className = 'node';
+      var nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = d.holder;
+      var inc = document.createElement('span'); inc.className = 'in'; inc.textContent = d.money(d.amount);
+      li.append(node, nm, inc); t.appendChild(li);
+    });
+  </script>
+</body>
+</html>

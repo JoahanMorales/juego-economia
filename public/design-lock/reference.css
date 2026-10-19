@@ -1,0 +1,6 @@
+/* Reference screens only: layout helpers on top of the real tokens. No color literals here (test/design-tokens.test.js). */
+@import url('../css/tokens.css');
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-text); }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.demo-label { position: fixed; right: 12px; bottom: 8px; font: 12px var(--font-mono); color: var(--text-muted); opacity: .7; }
