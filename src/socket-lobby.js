@@ -101,20 +101,21 @@ module.exports = function socketLobby(io, ctx) {
       ctx.broadcast(room);
     });
 
-    on('player:join', ({ code, name, playerId }, cb) => {
+    on('player:join', ({ code, name, playerId, secret }, cb) => {
       const room = rooms.find(code);
       if (!room) return fail('no_room', 'No existe una sala con ese código.');
-      const known = typeof playerId === 'string' && room.players.has(playerId);
+      const prev = typeof playerId === 'string' && room.players.get(playerId);
+      const known = !!prev && !prev.isBot && typeof secret === 'string' && secret === prev.secret;
       if (!known && room.phase !== 'lobby') {
         return fail('in_progress', 'La partida ya empezó. Espera a que el presentador vuelva al lobby.');
       }
-      const r = rooms.join(room, { name, playerId: known ? playerId : undefined, socketId: socket.id });
+      const r = rooms.join(room, { name, playerId: known ? playerId : undefined, secret: known ? secret : undefined, socketId: socket.id });
       if (!r.ok) return fail('bad_name', r.error);
       socket.data.playerId = r.player.id;
       socket.data.playerCode = room.code;
       socket.join(room.code);
       rooms.touch(room);
-      ack(cb, { playerId: r.player.id });
+      ack(cb, { playerId: r.player.id, secret: r.player.secret });
       return ctx.broadcast(room);
     });
 

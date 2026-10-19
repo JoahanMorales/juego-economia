@@ -62,8 +62,10 @@ test('player:join, room:state sin hostToken y desconexión en gris', async () =>
   const { host, code, hostToken } = await newRoom();
   const p = client();
   const state = once(host, 'room:state');
-  const { playerId } = await ask(p, 'player:join', { code, name: 'Ana' });
+  const { playerId, secret } = await ask(p, 'player:join', { code, name: 'Ana' });
+  assert.match(secret, /^[0-9a-f-]{36}$/);
   const s = await state;
+  assert.ok(!JSON.stringify(s).includes(secret), 'el secret nunca va en room:state');
   assert.equal(s.players[0].name, 'Ana');
   assert.equal(s.players[0].connected, true);
   assert.ok(!JSON.stringify(s).includes(hostToken));
@@ -73,12 +75,17 @@ test('player:join, room:state sin hostToken y desconexión en gris', async () =>
   assert.equal((await gray).players[0].connected, false);
 
   const p2 = client();
-  const back = until(host, (s) => s.players.length === 1 && s.players[0].connected);
-  const r = await ask(p2, 'player:join', { code, name: 'Otro', playerId });
+  const back = until(host, (s) => s.players.some((x) => x.id === playerId && x.connected));
+  const impostor = client();
+  const fake = await ask(impostor, 'player:join', { code, name: 'Intruso', playerId });
+  assert.notEqual(fake.playerId, playerId, 'el id público no basta para entrar como Ana');
+  impostor.close();
+  const r = await ask(p2, 'player:join', { code, name: 'Otro', playerId, secret });
   assert.equal(r.playerId, playerId);
   const s2 = await back;
-  assert.equal(s2.players.length, 1);
-  assert.equal(s2.players[0].connected, true);
+  const ana = s2.players.find((x) => x.id === playerId);
+  assert.equal(ana.name, 'Ana');
+  assert.equal(ana.connected, true);
 });
 
 test('nombres repetidos y sala inexistente', async () => {

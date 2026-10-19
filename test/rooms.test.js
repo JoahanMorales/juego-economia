@@ -43,7 +43,7 @@ test('join: nuevo, duplicado y reconexión conserva saved/errors', () => {
   r.setConnected(room, 'p1', false);
   assert.strictEqual(a.player.connected, false);
   assert.strictEqual(a.player.socketId, null);
-  const again = r.join(room, { name: 'Otro', playerId: 'p1', socketId: 's9' });
+  const again = r.join(room, { name: 'Otro', playerId: 'p1', secret: a.player.secret, socketId: 's9' });
   assert.strictEqual(again.reconnected, true);
   assert.strictEqual(again.player, a.player);
   assert.strictEqual(a.player.saved, 40);
@@ -85,4 +85,23 @@ test('touch y sweep (> 2 h)', () => {
   assert.strictEqual(r.find(old.code), undefined);
   assert.strictEqual(r.find(fresh.code), fresh);
   assert.deepStrictEqual(r.sweep(2 * H), []);
+});
+
+test('reconectar exige el secret: el id público no basta para suplantar', () => {
+  const r = createRooms();
+  const room = r.create();
+  const ana = r.join(room, { name: 'Ana', socketId: 's1' }).player;
+  ana.saved = 120;
+  r.setConnected(room, ana.id, false);
+  for (const secret of [undefined, '', 'adivinado']) {
+    const fake = r.join(room, { name: 'Intruso', playerId: ana.id, secret, socketId: 'sX' });
+    assert.strictEqual(fake.reconnected, false);
+    assert.notStrictEqual(fake.player.id, ana.id);
+    assert.strictEqual(fake.player.saved, 0);
+  }
+  assert.strictEqual(ana.connected, false);
+  const back = r.join(room, { name: 'Ana', playerId: ana.id, secret: ana.secret, socketId: 's2' });
+  assert.strictEqual(back.reconnected, true);
+  assert.strictEqual(back.player.saved, 120);
+  assert.match(ana.secret, /^[0-9a-f-]{36}$/);
 });
