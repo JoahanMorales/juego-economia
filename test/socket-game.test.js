@@ -52,8 +52,9 @@ async function newRoom({ players = 2, bots = 0 } = {}) {
     const c = client();
     c.turns = [];
     c.on('you:turn', (t) => c.turns.push(t));
-    const { playerId } = await ask(c, 'player:join', { code, name: `J${i + 1}` });
+    const { playerId, secret } = await ask(c, 'player:join', { code, name: `J${i + 1}` });
     c.pid = playerId;
+    c.secret = secret;
     ps.push(c);
   }
   if (bots) host.emit('host:addBots', { count: bots });
@@ -143,7 +144,7 @@ test('menos de 2 conectados pausa y al volver se reanuda en el mismo turno', asy
   assert.equal(host.last.game.turn, 1);
   assert.equal(host.last.game.passes, 0);
   const back = client();
-  await ask(back, 'player:join', { code, name: 'J2', playerId: other.pid });
+  await ask(back, 'player:join', { code, name: 'J2', playerId: other.pid, secret: other.secret });
   const resumed = await until(host, (x) => x.game && !x.game.paused);
   assert.equal(resumed.game.turn, 1);
   assert.equal(resumed.game.holderId, holder.pid);
@@ -159,7 +160,7 @@ test('el poseedor que reconecta antes de 3 s recupera you:turn', async () => {
   await wait(30);
   const back = client();
   const turn = once(back, 'you:turn');
-  await ask(back, 'player:join', { code, name: 'J', playerId: holder.pid });
+  await ask(back, 'player:join', { code, name: 'J', playerId: holder.pid, secret: holder.secret });
   const t = await turn;
   assert.equal(t.turn, 1);
   back.emit('player:pass', { turn: 1, saving: 250, toId: null });
