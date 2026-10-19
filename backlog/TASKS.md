@@ -58,3 +58,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Next step:** add testMatch to both projects in playwright.config.js.
 
 | playwright.config.js | PAS-020 |
+
+## PAS-021 · Montos de millones caben en una línea en el celular (follow-up of PAS-010)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** PAS-010
+- **Follow-up of:** PAS-010
+- **Paths:** public/play.html, public/js/play.js, public/css/play.css, e2e/play.spec.js
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Montos de millones caben en una línea en el celular
+- **Verify:** `npx playwright test e2e/play.spec.js --project=phone`
