@@ -49,7 +49,7 @@ A human sets `yes`. A missing field means `no`.
 ```text
 Mode: sprint
 Backlog-Proposed-Epoch: 0
-Backlog-Approved: no
+Backlog-Approved: yes
 Autonomy: yes
 Auto-Merge: yes
 Review-Mode: claims

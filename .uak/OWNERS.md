@@ -5,17 +5,18 @@ An owner is not a prerequisite for everyone: consumers work on published contrac
 
 | Pattern | Owner task |
 |---|---|
-| pyproject.toml | HACK-001 |
-| uv.lock | HACK-001 |
-| package.json | HACK-001 |
-| package-lock.json | HACK-001 |
-| web/package.json | HACK-001 |
-| web/package-lock.json | HACK-001 |
-| app/main.py | HACK-001 |
-| web/src/App.tsx | HACK-001 |
-| app/schemas/ | HACK-002 |
-| web/DESIGN.md | HACK-002 |
-| .github/workflows/ | HACK-001 |
-| .uak/PROJECT.md | HACK-001 |
-
-Delete rows for technologies you don't use. `/uak-plan` creates HACK-001 (setup) and HACK-002 (contract).
+| package.json | PAS-001 |
+| package-lock.json | PAS-001 |
+| server.js | PAS-001 |
+| render.yaml | PAS-001 |
+| playwright.config.js | PAS-001 |
+| .uak/bin/smoke-project | PAS-001 |
+| .github/workflows/ | PAS-001 |
+| .uak/PROJECT.md | PAS-001 |
+| public/js/protocol.js | PAS-002 |
+| public/js/format.js | PAS-002 |
+| public/js/mock-socket.js | PAS-002 |
+| public/mock/ | PAS-002 |
+| docs/DESIGN.md | PAS-003 |
+| public/css/tokens.css | PAS-003 |
+| public/css/base.css | PAS-003 |

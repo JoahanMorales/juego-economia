@@ -11,6 +11,7 @@ Juego en tiempo real (Node + Express + Socket.IO) para enseñar el multiplicador
 - Corre `bash .uak/bin/q npm test` antes de cada commit (node:test, no pytest).
 - El servidor escucha en `process.env.PORT`; en un worktree arráncalo con `PORT=$UAK_PORT npm start`.
 - Una sola instancia en Render: el estado vive en memoria.
+- The kit's `web/DESIGN.md` is `docs/DESIGN.md` here, and the web lives in `public/` (no build). Tell `design-critic` so. Colors only from `public/css/tokens.css`.
 
 Load `.uak/docs/` only when `AGENTS.md` §7 or your mode says so. Minimal context leaves tokens for the task.
 
