@@ -6,7 +6,7 @@
 - Why: real server, deterministic enough
 - Failing: first run: strict-mode locator #s-turn,#s-other (fixed, not re-run)
 - Commands: UAK_PORT=$UAK_PORT npx playwright test e2e/flow.spec.js --project=projector
-- Next: Another agent reviews https://github.com/JoahanMorales/juego-economia/compare/main...feat/pas-011?expand=1; run .uak/bin/smoke
+- Next: Integrated in main: acd64a6eee387fda04ab6fc33439e06ad0586d53
 
 ## History
 - 1792393300 | CLAIMED | joahan-2 | claim; next: write e2e/flow.spec.js against the real server
@@ -17,3 +17,4 @@
 - 1792403458 | REVIEW | joahan-2 | heartbeat; lease until 1792417858
 - 1792403636 | REVIEW | joahan-2 | done; PR https://github.com/JoahanMorales/juego-economia/compare/main...feat/pas-011?expand=1; evidence: flow e2e passed 3 runs in a row; npm test exit 0; sha 95741ad; reviewer: -
 - 1792403681 | REVIEW | joahan-1 | review; approve; SHA 95741ad400d4f46c9769a0592c44cf6928b58dc3; reviewer joahan-1
+- 1792404262 | INTEGRATED | joahan-2 | merge; smoke and Verify PASS; commit acd64a6eee387fda04ab6fc33439e06ad0586d53; reviewer joahan-1
