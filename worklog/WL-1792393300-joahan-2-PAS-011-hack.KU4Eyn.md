@@ -1,7 +1,7 @@
 # worklog/WL-1792393300-joahan-2-PAS-011-hack.KU4Eyn.md · PAS-011
 
 ## Live summary
-- Done: npx playwright test e2e/flow.spec.js --project=projector passed 3 runs in a row; npm test exit 0; sha de7d778
+- Done: flow e2e passed 3 runs in a row; npm test exit 0; sha 95741ad
 - Decision: one browser context per device; Ana right, Luis wrong; end via host
 - Why: real server, deterministic enough
 - Failing: first run: strict-mode locator #s-turn,#s-other (fixed, not re-run)
@@ -15,3 +15,4 @@
 - 1792403279 | REVIEW | joahan-2 | done; PR https://github.com/JoahanMorales/juego-economia/compare/main...feat/pas-011?expand=1; evidence: npx playwright test e2e/flow.spec.js --project=projector passed 3 runs in a row; npm test exit 0; sha de7d778; reviewer: -
 - 1792403323 | REVIEW | joahan-1 | review; reject; SHA de7d77872fc1d997d1c80aa58ec67d817e4be44a; reviewer joahan-1
 - 1792403458 | REVIEW | joahan-2 | heartbeat; lease until 1792417858
+- 1792403636 | REVIEW | joahan-2 | done; PR https://github.com/JoahanMorales/juego-economia/compare/main...feat/pas-011?expand=1; evidence: flow e2e passed 3 runs in a row; npm test exit 0; sha 95741ad; reviewer: -
