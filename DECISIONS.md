@@ -12,3 +12,4 @@ Why: a reversible option after 15 min keeps work moving.
 - 1792393356 | PAS-011 | one browser context per device; Ana right, Luis wrong; end via host | Why: real server, deterministic enough
 - 1792403046 | deadline lease/PAS-011/1792396056 | REQUIRES_RECOVERY | Claim kept; read the summary and use release --expired --read-summary. No work is deleted.
 - 1792403046 | deadline lease/PAS-012/1792395988 | REQUIRES_RECOVERY | Claim kept; read the summary and use release --expired --read-summary. No work is deleted.
+- 1792403375 | PAS-012 | rate_limit de 1/s hace que tiempos de pensar cortos con pocos jugadores midan mal; defaults IDEA no lo afectan | Why: limiter del servidor por socket

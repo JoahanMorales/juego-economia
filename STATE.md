@@ -1,7 +1,7 @@
 # STATE
 
 Phase: execution
-Updated: 1792403368
+Updated: 1792403375
 AVAILABLE: PAS-015 PAS-016 
 CLAIMED: PAS-013 
 BLOCKED: -
@@ -11,18 +11,18 @@ CANCELLED: PAS-017
 
 Claims (first 24; status --task ID shows detail):
 PAS-011 | REVIEW | joahan-2 | until 1792417679
-PAS-012 | REVIEW | joahan-1 | until 1792417768
+PAS-012 | REVIEW | joahan-1 | until 1792417775
 PAS-013 | CLAIMED | joahan-2 | until 1792406040
 PAS-014 | REVIEW | joahan-2 | until 1792407525
 PAS-018 | REVIEW | joahan-2 | until 1792417465
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
 Current decisions (last 5):
-- 1792392325 | PAS-010 | mock mode trusts stored playerId | Why: mock ack is canned
 - 1792392794 | plan | JoahanMorales/JoahanMorales | tasks added: PAS-018 | Why: backlog without PR (Plan-Channel: claims)
 - 1792393356 | PAS-011 | one browser context per device; Ana right, Luis wrong; end via host | Why: real server, deterministic enough
 - 1792403046 | deadline lease/PAS-011/1792396056 | REQUIRES_RECOVERY | Claim kept; read the summary and use release --expired --read-summary. No work is deleted.
 - 1792403046 | deadline lease/PAS-012/1792395988 | REQUIRES_RECOVERY | Claim kept; read the summary and use release --expired --read-summary. No work is deleted.
+- 1792403375 | PAS-012 | rate_limit de 1/s hace que tiempos de pensar cortos con pocos jugadores midan mal; defaults IDEA no lo afectan | Why: limiter del servidor por socket
 
 Global next step: available P0; else review PRs, tests, demo, rehearsal.
 Why: bounded snapshot to resume without rereading history.
