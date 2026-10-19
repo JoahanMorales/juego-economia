@@ -30,3 +30,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
   - Tests: impersonation with the public id fails; the real owner reconnects and keeps saved/errors.
 - **Verify:** `node --test test/rooms.test.js test/socket-lobby.test.js`
 - **Next step:** add `secret` to the player object in rooms.join with a failing impersonation test.
+
+## PAS-019 · playwright.config.js: cada proyecto corre sólo sus specs (proyector: host y flow; celular: play), así npx playwright test pasa completo (follow-up of PAS-001)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** PAS-001
+- **Follow-up of:** PAS-001
+- **Paths:** package.json, package-lock.json, server.js, src/socket-lobby.js, src/socket-game.js, render.yaml, playwright.config.js, test/health.test.js, .uak/bin/smoke-project
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - playwright.config.js: cada proyecto corre sólo sus specs (proyector: host y flow; celular: play), así npx playwright test pasa completo
+- **Verify:** `npm ci --no-audit --no-fund && node --test test/health.test.js`

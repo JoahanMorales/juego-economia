@@ -1,7 +1,7 @@
 # STATE
 
 Phase: execution
-Updated: 1792404278
+Updated: 1792404340
 AVAILABLE: -
 CLAIMED: PAS-016 
 BLOCKED: -
@@ -15,11 +15,11 @@ PAS-016 | CLAIMED | joahan-2 | until 1792406978
 
 Blockers: BLOCKED tasks; use status --task ID --summary.
 Current decisions (last 5):
-- 1792392794 | plan | JoahanMorales/JoahanMorales | tasks added: PAS-018 | Why: backlog without PR (Plan-Channel: claims)
 - 1792393356 | PAS-011 | one browser context per device; Ana right, Luis wrong; end via host | Why: real server, deterministic enough
 - 1792403046 | deadline lease/PAS-011/1792396056 | REQUIRES_RECOVERY | Claim kept; read the summary and use release --expired --read-summary. No work is deleted.
 - 1792403046 | deadline lease/PAS-012/1792395988 | REQUIRES_RECOVERY | Claim kept; read the summary and use release --expired --read-summary. No work is deleted.
 - 1792403375 | PAS-012 | rate_limit de 1/s hace que tiempos de pensar cortos con pocos jugadores midan mal; defaults IDEA no lo afectan | Why: limiter del servidor por socket
+- 1792404340 | PAS-019 | follow-up of PAS-001 by joahan-2: playwright.config.js: cada proyecto corre sólo sus specs (proyector: host y flow; celular: play), así npx playwright te
 
 Global next step: available P0; else review PRs, tests, demo, rehearsal.
 Why: bounded snapshot to resume without rereading history.
