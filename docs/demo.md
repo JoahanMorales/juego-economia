@@ -2,12 +2,12 @@
 
 ## Lo que le toca al presentador (Joahan) antes de la clase
 
-1. **Crear el servicio en Render** (un agente nunca crea cuentas ni despliega):
+1. **Crear el servicio en Render** (hecho el 19 de octubre: <https://pasala.onrender.com>; un agente nunca crea cuentas ni despliega):
    1. Entra a <https://render.com> con tu cuenta de GitHub.
    2. **New → Blueprint**, elige `JoahanMorales/juego-economia`. Render lee `render.yaml` y crea `pasala` (Node, `npm ci`, `npm start`, health check `/health`, plan free, una instancia).
-   3. Cuando diga *Live*, abre `https://pasala-xxxx.onrender.com/health`: debe responder `ok`.
-2. **Prueba de carga contra Render** (2 minutos por partida):
-   `node test/load-test.js https://pasala-xxxx.onrender.com --players 30 --games 1`
+   3. Cuando diga *Live*, abre `https://pasala.onrender.com/health`: debe responder `ok`.
+2. **Prueba de carga contra Render** (hecha el 19 de octubre, ver Evidencia):
+   `node test/load-test.js https://pasala.onrender.com --players 30 --games 1`
    La meta: `RESULTADO: OK`, latencia promedio < 300 ms y 0 desconexiones.
 3. **Prueba real con 3 a 5 amigos** en sus celulares, con datos móviles y con Wi-Fi.
 4. **Video de respaldo:** graba el flujo completo (proyector + un celular) y guárdalo fuera del repo.
@@ -40,11 +40,12 @@ Si quedan menos de 2 conectados, el juego se pausa y el proyector lo avisa.
 
 | Prueba | Comando | Resultado |
 |---|---|---|
-| Ensayo desde un clon limpio | `git clone … && npm ci && npm test` | 65/65 pruebas, exit 0 (clon de `acd64a6`, 19 oct 04:0x) |
-| Pantallas en navegador | `npx playwright test` | 14/14: proyector 7, flujo completo 1, celular 6 (después de PAS-020) |
+| Ensayo desde un clon limpio | `git clone … && npm ci && npm test` | 65/65 pruebas, exit 0 (clon de `acd64a6`, 19 oct 04:0x); 68/68 en `2df35d6` (19 oct) |
+| Pantallas en navegador | `npx playwright test` | 19/19 en `2df35d6`: proyector 8, flujo completo 1, celular 10 (incluye montos de millones, PAS-021 y PAS-022) |
 | Flujo completo | `e2e/flow.spec.js`: proyector, 2 celulares y 5 bots en el servidor real | pasa 3 veces seguidas y contra el servidor vivo de la laptop; al recargar, el celular conserva su ahorro y no se duplica |
 | Carga local | `node test/load-test.js --local --players 30 --games 3` | 3/3 partidas, 75 jugadas, latencia promedio 12.8 ms, p95 19 ms, máx 35 ms, 0 desconexiones, sin errores; movido $3,996.86 contra $4,000 en cada partida (19 oct, en esta laptop) |
-| Carga en Render | `node test/load-test.js https://pasala-xxxx.onrender.com --players 30 --games 1` | pendiente: la corre el presentador después de crear el servicio |
+| Carga en Render | `node test/load-test.js https://pasala.onrender.com --players 30 --games 1` | `RESULTADO: OK`: 1/1 partida, 25 jugadas, latencia promedio 158.5 ms, p95 210 ms, máx 629 ms, 0 desconexiones, sin errores; movido $3,996.86 contra $4,000 (19 oct, plan free) |
+| Ensayo de clase en Render | proyector en Chromium (`host.html`), 2 celulares reales (`play.html`) y 28 alumnos simulados (rápidos, normales, lentos, distraídos) juegan los 3 casos de la presentación | 2 ensayos, 3/3 rondas cada uno: latencia promedio 147 y 146 ms (p95 264 y 244 ms), 0 desconexiones, 0 errores de JavaScript; movido $2,998.01 / $3,000, $1,999,998.04 / $2,000,000 y $3,999,996.77 / $4,000,000; un alumno recarga a media ronda y vuelve con el mismo ahorro, sin duplicarse. Encontró 2 fallas con millones, corregidas en PAS-021 y PAS-022 (19 oct) |
 
 ## Checklist del día (IDEA §10)
 
