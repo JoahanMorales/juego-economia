@@ -82,3 +82,15 @@ Append-only; added to .uak/TASKS.md from main. Why: adding tasks never waits for
 - **Acceptance:**
   - Etiqueta 'se movió' de la gráfica final no se corta con millones
 - **Verify:** `npx playwright test e2e/host.spec.js --project=projector`
+
+## PAS-023 · Evidencia de Render en docs/demo.md (follow-up of PAS-016)
+
+- **Type:** follow-up
+- **Priority:** P1
+- **Depends on:** PAS-016
+- **Follow-up of:** PAS-016
+- **Paths:** docs/demo.md
+- **Freeze-Allowed:** no
+- **Acceptance:**
+  - Evidencia de Render en docs/demo.md
+- **Verify:** `test -s docs/demo.md && node test/load-test.js --local --players 30 --games 1`
